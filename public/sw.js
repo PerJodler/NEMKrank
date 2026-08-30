@@ -1,4 +1,4 @@
-const CACHE_NAME = 'vitachronik-shell-v2';
+const CACHE_NAME = 'vitachronik-shell-v3';
 const APP_SHELL = [
   './',
   './index.html',

@@ -19,6 +19,8 @@ requireText(html.includes("localStorage"), "Lokale Datenspeicherung fehlt.");
 requireText(html.includes('id="healthView"'), "Gesundheitskalender fehlt.");
 requireText(html.includes('id="supplementsView"'), "Supplement-Kalender fehlt.");
 requireText(html.includes('id="settingsView"'), "Einstellungsseite fehlt.");
+requireText((html.match(/data-design-choice=/g) || []).length === 10, "Die zehn App-Designs fehlen.");
+requireText(html.includes("settings: { theme:'system', design:'dopamine'"), "Design-Einstellung fehlt.");
 requireText(html.includes('rel="manifest"'), "Manifest-Verknüpfung fehlt.");
 requireText(html.includes('apple-mobile-web-app-capable'), "iOS-Standalone-Modus fehlt.");
 requireText(html.includes("serviceWorker.register('./sw.js')"), "Service-Worker-Registrierung fehlt.");
