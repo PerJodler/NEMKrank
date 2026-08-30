@@ -7,12 +7,12 @@
   <meta name="description" content="VitaChronik – persönlicher Kalender für Symptome, Krankheiten, Arzttermine und Nahrungsergänzungsmittel." />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-  <meta name="apple-mobile-web-app-title" content="Vita 04" />
+  <meta name="apple-mobile-web-app-title" content="Vita 05" />
   <meta name="mobile-web-app-capable" content="yes" />
   <link rel="manifest" href="./manifest.webmanifest" />
   <link rel="apple-touch-icon" href="./icons/apple-touch-icon.png" />
   <link rel="icon" type="image/svg+xml" href="./icons/icon.svg" />
-  <title>VitaChronik – Design 04 Citrus Boost</title>
+  <title>VitaChronik – Design 05 Berry Brain</title>
   <style>
     :root {
       --ink: #202638;
@@ -496,34 +496,36 @@
       .design-count { display:inline-flex; margin-top:10px; }
     }
     @media (max-width: 390px) { .design-grid { grid-template-columns:1fr; } }
-    /* Feste Konzeptversion 04 – Citrus Boost */
-    html[data-design="citrus"] body { background:#ff6a00; }
-    html[data-design="citrus"] main { background:#ff6a00; }
-    html[data-design="citrus"] .sidebar { background:#10379d; color:#fff; box-shadow:none; }
-    html[data-design="citrus"] .brand-copy small, html[data-design="citrus"] .nav-label, html[data-design="citrus"] .nav-btn { color:rgba(255,255,255,.76); }
-    html[data-design="citrus"] .nav-btn.active { background:#ffd21e; color:#10379d; box-shadow:6px 6px 0 #071d60; }
-    html[data-design="citrus"] .privacy-card { background:rgba(255,255,255,.1); color:#fff; }
-    html[data-design="citrus"] .privacy-card strong { color:#ffd21e; }
-    html[data-design="citrus"] .topbar { min-height:132px; align-items:flex-end; border:3px solid #10379d; border-radius:4px; background:#ff6a00; color:#fff9ed; box-shadow:8px 8px 0 #10379d; }
-    html[data-design="citrus"] h1 { font-family:Impact,"Arial Narrow",sans-serif; font-size:clamp(48px,7vw,92px); line-height:.82; letter-spacing:-.03em; text-transform:uppercase; }
-    html[data-design="citrus"] .topbar::after { display:none; }
-    html[data-design="citrus"] .topbar .primary-btn { border:3px solid #10379d; border-radius:3px; background:#ffd21e; color:#10379d; box-shadow:5px 5px 0 #10379d; text-transform:uppercase; }
-    html[data-design="citrus"] .date-pill { border:3px solid #10379d; border-radius:3px; background:#fff9ed; color:#10379d; }
-    html[data-design="citrus"] .summary-card, html[data-design="citrus"] .panel, html[data-design="citrus"] .settings-card { border:3px solid #10379d; border-radius:4px; box-shadow:7px 7px 0 #10379d; }
-    html[data-design="citrus"] .summary-card:nth-child(1) { background:#fff9ed; }
-    html[data-design="citrus"] .summary-card:nth-child(2) { background:#10379d; color:#fff; }
-    html[data-design="citrus"] .summary-card:nth-child(2) span { color:rgba(255,255,255,.72); }
-    html[data-design="citrus"] .summary-card:nth-child(3) { background:#ffd21e; }
-    html[data-design="citrus"] .calendar-panel { border-top-width:3px; }
-    html[data-design="citrus"] .day-cell, html[data-design="citrus"] .event-chip, html[data-design="citrus"] .icon-btn { border-radius:2px; }
-    .citrus-actions { display:grid; grid-template-columns:1.1fr 1fr 1fr; gap:12px; margin-bottom:16px; }
-    .citrus-block { min-height:124px; display:flex; flex-direction:column; justify-content:space-between; padding:18px; border:3px solid #10379d; border-radius:4px; background:#ffd21e; color:#10379d; box-shadow:7px 7px 0 #10379d; cursor:pointer; text-align:left; font-family:Impact,"Arial Narrow",sans-serif; font-size:24px; line-height:.95; text-transform:uppercase; }
-    .citrus-block:nth-child(2) { background:#10379d; color:#fff; }
-    .citrus-block:nth-child(3) { background:#fff9ed; }
-    .citrus-block span { font:900 10px/1.2 Inter,sans-serif; letter-spacing:.12em; }
-    .citrus-block b { align-self:flex-end; font:900 30px/1 Inter,sans-serif; }
-    html[data-design="citrus"] .footnote { color:rgba(255,255,255,.8); }
-    @media (max-width:720px) { html[data-design="citrus"] main { min-height:100vh; } html[data-design="citrus"] .topbar { min-height:105px; box-shadow:5px 5px 0 #10379d; } html[data-design="citrus"] h1 { font-size:48px; } .citrus-actions { grid-template-columns:1fr 1fr; } .citrus-block:first-child { grid-column:1/-1; } .citrus-block { min-height:94px; font-size:19px; box-shadow:5px 5px 0 #10379d; } }
+    /* Feste Konzeptversion 05 – Berry Brain */
+    html[data-design="berry"] body { background:#eee2f2; }
+    html[data-design="berry"] main { background:radial-gradient(circle at 90% 5%,#f8dce6 0 12rem,transparent 30rem),#eee2f2; }
+    html[data-design="berry"] .sidebar { background:linear-gradient(180deg,#5e123f,#7b1e55); color:#fff; box-shadow:12px 0 34px rgba(70,12,47,.16); }
+    html[data-design="berry"] .brand-copy small, html[data-design="berry"] .nav-label, html[data-design="berry"] .nav-btn { color:rgba(255,255,255,.72); }
+    html[data-design="berry"] .nav-btn.active { background:#fff3f5; color:#6b1748; box-shadow:0 12px 26px rgba(45,4,28,.22); }
+    html[data-design="berry"] .privacy-card { background:rgba(255,255,255,.1); color:#fff; }
+    html[data-design="berry"] .privacy-card strong { color:#ffc2d2; }
+    html[data-design="berry"] .topbar { background:linear-gradient(135deg,#4c0d35,#7a1b52 60%,#a42a64); }
+    html[data-design="berry"] h1, html[data-design="berry"] .detail-head h3, html[data-design="berry"] .entry-card h4 { font-family:Georgia,"Times New Roman",serif; font-weight:600; letter-spacing:-.035em; }
+    html[data-design="berry"] h1 { font-size:clamp(36px,5vw,62px); }
+    html[data-design="berry"] .summary-card { background:#fff8f8; border:1px solid rgba(108,29,73,.1); }
+    html[data-design="berry"] #healthView .workspace { grid-template-columns:minmax(0,1.15fr) minmax(310px,.72fr); }
+    html[data-design="berry"] #healthView .detail-panel { order:1; position:static; border-top:0; background:#fff8f8; }
+    html[data-design="berry"] #healthView .calendar-panel { order:2; border-top:0; }
+    html[data-design="berry"] .detail-head { padding:24px 25px 18px; background:linear-gradient(120deg,#671646,#9f2d67); color:#fff; }
+    html[data-design="berry"] .detail-head .overline { color:#ffc0d0; }
+    html[data-design="berry"] .detail-body { position:relative; padding:20px 18px 20px 46px; }
+    html[data-design="berry"] .detail-body::before { content:""; position:absolute; left:27px; top:18px; bottom:18px; width:2px; background:linear-gradient(#8a245b,#ef96aa,#82b9a0); }
+    html[data-design="berry"] .entry-card { padding:18px 42px 18px 18px; border:0; border-radius:24px; background:#f9e8ee; box-shadow:0 12px 24px rgba(94,18,63,.09); }
+    html[data-design="berry"] .entry-card:nth-child(2n) { background:#fff0e5; }
+    html[data-design="berry"] .entry-card:nth-child(3n) { background:#eaf3ed; }
+    html[data-design="berry"] .entry-card::before { content:""; position:absolute; left:-28px; top:25px; width:14px; height:14px; border:4px solid #fff8f8; border-radius:50%; background:#8a245b; box-shadow:0 0 0 2px #8a245b; }
+    html[data-design="berry"] .entry-card h4 { font-size:19px; }
+    html[data-design="berry"] .type-badge { background:#8a245b; color:#fff; }
+    html[data-design="berry"] .type-badge.illness { background:#d45b6f; color:#fff; }
+    html[data-design="berry"] .type-badge.doctor, html[data-design="berry"] .type-badge.appointment { background:#4a9477; color:#fff; }
+    html[data-design="berry"] .calendar-panel, html[data-design="berry"] .stack-panel, html[data-design="berry"] .settings-card { border:1px solid rgba(108,29,73,.09); }
+    @media (max-width:1060px) { html[data-design="berry"] #healthView .workspace { grid-template-columns:1fr; } html[data-design="berry"] #healthView .detail-panel { order:1; } html[data-design="berry"] #healthView .calendar-panel { order:2; } }
+    @media (max-width:720px) { html[data-design="berry"] main { min-height:100vh; } html[data-design="berry"] .topbar { min-height:108px; } html[data-design="berry"] .detail-body { padding-left:42px; } html[data-design="berry"] .detail-body::before { left:24px; } }
   </style>
 </head>
 <body>
@@ -574,11 +576,6 @@
       </header>
 
       <section class="view active" id="healthView" aria-labelledby="viewTitle">
-        <section class="citrus-actions" aria-label="Schnellaktionen">
-          <button class="citrus-block" type="button" data-quick-type="symptom"><span>01 · GESUNDHEIT</span>SYMPTOM<br>EINTRAGEN<b>→</b></button>
-          <button class="citrus-block" type="button" data-quick-type="appointment"><span>02 · PLANEN</span>ARZTTERMIN<b>→</b></button>
-          <button class="citrus-block" type="button" data-view="supplements"><span>03 · ROUTINE</span>NEM-PLAN<b>→</b></button>
-        </section>
         <div class="summary-strip" id="healthSummary"></div>
         <div class="workspace">
           <section class="panel calendar-panel" aria-label="Kalender für Krankheitsverlauf und Arzttermine">
@@ -731,7 +728,7 @@
       clock: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>'
     };
 
-    const STORAGE_KEY = 'vitachronik-design04-v1';
+    const STORAGE_KEY = 'vitachronik-design05-v1';
     const monthFormat = new Intl.DateTimeFormat('de-DE', { month: 'long', year: 'numeric' });
     const longDateFormat = new Intl.DateTimeFormat('de-DE', { weekday: 'long', day: 'numeric', month: 'long' });
     const shortDateFormat = new Intl.DateTimeFormat('de-DE', { day: '2-digit', month: '2-digit' });
@@ -807,8 +804,8 @@
     function renderView() {
       const viewIds = { health:'healthView', supplements:'supplementsView', settings:'settingsView' };
       const copy = {
-        health: { eyebrow: state.settings.profileName ? `HALLO ${state.settings.profileName}` : 'VITACHRONIK', title:'DEIN TAG', add:'EINTRAGEN' },
-        supplements: { eyebrow:'DEIN EIGENER KALENDER', title:'NEM-PLAN', add:'NEM PLANEN' },
+        health: { eyebrow: state.settings.profileName ? `Hallo ${state.settings.profileName}` : 'Heute', title:'Deine Chronik', add:'Eintrag hinzufügen' },
+        supplements: { eyebrow:'Dein Tagesrhythmus', title:'NEM-Chronik', add:'NEM planen' },
         settings: { eyebrow:'VitaChronik verwalten', title:'Einstellungen', add:'' }
       };
       const activeCopy = copy[state.activeView] || copy.health;
@@ -832,7 +829,7 @@
 
     function applyTheme() {
       document.documentElement.dataset.theme = resolveTheme();
-      document.documentElement.dataset.design = 'citrus';
+      document.documentElement.dataset.design = 'berry';
       const designColors = { dopamine:'#6c4cff', focus:'#007d8f', candy:'#9a58ed', citrus:'#ffb92e', berry:'#7a2e91', ocean:'#1261d5', neon:'#17122c', sunshine:'#f54d35', pixel:'#3e45d7', rainbow:'#8070df' };
       document.querySelector('meta[name="theme-color"]').content = designColors[state.settings.design] || designColors.dopamine;
     }
@@ -998,8 +995,6 @@
       if (viewButton) setActiveView(viewButton.dataset.view);
       const themeChoice = event.target.closest('[data-theme-choice]');
       if (themeChoice) { state.settings.theme=themeChoice.dataset.themeChoice; persist(); render(); }
-      const quickType = event.target.closest('[data-quick-type]');
-      if (quickType) { state.activeView='health'; state.selectedDate=dateKey(today); document.getElementById('entryType').value=quickType.dataset.quickType; document.getElementById('entryDate').value=state.selectedDate; updateHealthFields(); document.getElementById('healthDialog').showModal(); }
       const nav = event.target.closest('[data-move]');
       if (nav) moveMonth(nav.dataset.calendar, Number(nav.dataset.move));
       const healthDay = event.target.closest('[data-health-date]');
