@@ -14,13 +14,13 @@ const failures = [];
 const requireText = (condition, message) => { if (!condition) failures.push(message); };
 
 requireText(/^<!doctype html>/i.test(html), "DOCTYPE fehlt.");
-requireText(html.includes("<title>VitaChronik – Design 01 Dopamin Pop</title>"), "Seitentitel fehlt.");
+requireText(html.includes("<title>VitaChronik – Design 04 Citrus Boost</title>"), "Seitentitel fehlt.");
 requireText(html.includes("localStorage"), "Lokale Datenspeicherung fehlt.");
 requireText(html.includes('id="healthView"'), "Gesundheitskalender fehlt.");
 requireText(html.includes('id="supplementsView"'), "Supplement-Kalender fehlt.");
 requireText(html.includes('id="settingsView"'), "Einstellungsseite fehlt.");
 requireText(!html.includes('data-design-choice='), "Eine Designauswahl darf in dieser Version nicht enthalten sein.");
-requireText(html.includes("dataset.design = 'dopamine'"), "Das feste App-Design fehlt.");
+requireText(html.includes("dataset.design = 'citrus'"), "Das feste App-Design fehlt.");
 requireText(html.includes('rel="manifest"'), "Manifest-Verknüpfung fehlt.");
 requireText(html.includes('apple-mobile-web-app-capable'), "iOS-Standalone-Modus fehlt.");
 requireText(html.includes("serviceWorker.register('./sw.js')"), "Service-Worker-Registrierung fehlt.");

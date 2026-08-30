@@ -7,12 +7,12 @@
   <meta name="description" content="VitaChronik – persönlicher Kalender für Symptome, Krankheiten, Arzttermine und Nahrungsergänzungsmittel." />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-  <meta name="apple-mobile-web-app-title" content="Vita 01" />
+  <meta name="apple-mobile-web-app-title" content="Vita 04" />
   <meta name="mobile-web-app-capable" content="yes" />
   <link rel="manifest" href="./manifest.webmanifest" />
   <link rel="apple-touch-icon" href="./icons/apple-touch-icon.png" />
   <link rel="icon" type="image/svg+xml" href="./icons/icon.svg" />
-  <title>VitaChronik – Design 01 Dopamin Pop</title>
+  <title>VitaChronik – Design 04 Citrus Boost</title>
   <style>
     :root {
       --ink: #202638;
@@ -496,31 +496,34 @@
       .design-count { display:inline-flex; margin-top:10px; }
     }
     @media (max-width: 390px) { .design-grid { grid-template-columns:1fr; } }
-    /* Feste Konzeptversion 01 – Dopamin Pop */
-    html[data-design="dopamine"] body { background:#4812df; }
-    html[data-design="dopamine"] main { background:linear-gradient(150deg,#5114ef 0%,#6c21ff 40%,#4012c7 100%); }
-    html[data-design="dopamine"] .sidebar { background:#fff; }
-    html[data-design="dopamine"] .topbar { background:linear-gradient(120deg,#6b21ff,#8e30ff 42%,#ff2e93); }
-    html[data-design="dopamine"] .view { color:#171338; }
-    html[data-design="dopamine"] .footnote { color:rgba(255,255,255,.72); }
-    html[data-design="dopamine"] .summary-card { border:2px solid rgba(255,255,255,.74); box-shadow:0 14px 28px rgba(34,6,105,.24); }
-    html[data-design="dopamine"] .summary-card:nth-child(1) { background:#8c4cff; color:#fff; }
-    html[data-design="dopamine"] .summary-card:nth-child(2) { background:#ffcf00; color:#171338; }
-    html[data-design="dopamine"] .summary-card:nth-child(3) { background:#08dcc5; color:#171338; }
-    html[data-design="dopamine"] .summary-card span { color:inherit; opacity:.74; }
-    html[data-design="dopamine"] .panel, html[data-design="dopamine"] .settings-card { box-shadow:0 20px 42px rgba(35,5,109,.25); }
-    .dopamine-focus { display:grid; grid-template-columns:minmax(0,1fr) auto; gap:18px; align-items:center; margin-bottom:14px; padding:22px 24px; border-radius:30px; background:linear-gradient(120deg,#ff2d93,#ff57ad); color:#fff; box-shadow:0 18px 34px rgba(68,6,92,.25); overflow:hidden; position:relative; }
-    .dopamine-focus::after { content:""; position:absolute; width:190px; height:190px; right:-80px; top:-85px; border:30px solid rgba(255,255,255,.14); border-radius:50%; }
-    .dopamine-focus-copy { position:relative; z-index:1; }
-    .dopamine-focus small { display:block; font-size:9px; font-weight:900; letter-spacing:.16em; opacity:.8; }
-    .dopamine-focus h2 { margin:4px 0 3px; font-size:clamp(27px,4vw,42px); letter-spacing:-.05em; }
-    .dopamine-focus p { margin:0; opacity:.82; }
-    .dopamine-actions { position:relative; z-index:1; display:grid; grid-template-columns:repeat(3,92px); gap:9px; }
-    .dopamine-action { min-height:86px; padding:10px 7px; border:2px solid rgba(255,255,255,.45); border-radius:22px; background:#fff; color:#4e19d3; cursor:pointer; font-size:11px; font-weight:900; box-shadow:0 8px 16px rgba(50,8,88,.18); }
-    .dopamine-action:nth-child(2) { background:#ffcf00; color:#1b1740; }
-    .dopamine-action:nth-child(3) { background:#09ddc7; color:#152e34; }
-    .dopamine-action span { display:block; margin-bottom:4px; font-size:25px; line-height:1; }
-    @media (max-width:720px) { html[data-design="dopamine"] main { min-height:100vh; } .dopamine-focus { grid-template-columns:1fr; padding:18px; border-radius:24px; } .dopamine-actions { grid-template-columns:repeat(3,1fr); } .dopamine-action { min-height:74px; } }
+    /* Feste Konzeptversion 04 – Citrus Boost */
+    html[data-design="citrus"] body { background:#ff6a00; }
+    html[data-design="citrus"] main { background:#ff6a00; }
+    html[data-design="citrus"] .sidebar { background:#10379d; color:#fff; box-shadow:none; }
+    html[data-design="citrus"] .brand-copy small, html[data-design="citrus"] .nav-label, html[data-design="citrus"] .nav-btn { color:rgba(255,255,255,.76); }
+    html[data-design="citrus"] .nav-btn.active { background:#ffd21e; color:#10379d; box-shadow:6px 6px 0 #071d60; }
+    html[data-design="citrus"] .privacy-card { background:rgba(255,255,255,.1); color:#fff; }
+    html[data-design="citrus"] .privacy-card strong { color:#ffd21e; }
+    html[data-design="citrus"] .topbar { min-height:132px; align-items:flex-end; border:3px solid #10379d; border-radius:4px; background:#ff6a00; color:#fff9ed; box-shadow:8px 8px 0 #10379d; }
+    html[data-design="citrus"] h1 { font-family:Impact,"Arial Narrow",sans-serif; font-size:clamp(48px,7vw,92px); line-height:.82; letter-spacing:-.03em; text-transform:uppercase; }
+    html[data-design="citrus"] .topbar::after { display:none; }
+    html[data-design="citrus"] .topbar .primary-btn { border:3px solid #10379d; border-radius:3px; background:#ffd21e; color:#10379d; box-shadow:5px 5px 0 #10379d; text-transform:uppercase; }
+    html[data-design="citrus"] .date-pill { border:3px solid #10379d; border-radius:3px; background:#fff9ed; color:#10379d; }
+    html[data-design="citrus"] .summary-card, html[data-design="citrus"] .panel, html[data-design="citrus"] .settings-card { border:3px solid #10379d; border-radius:4px; box-shadow:7px 7px 0 #10379d; }
+    html[data-design="citrus"] .summary-card:nth-child(1) { background:#fff9ed; }
+    html[data-design="citrus"] .summary-card:nth-child(2) { background:#10379d; color:#fff; }
+    html[data-design="citrus"] .summary-card:nth-child(2) span { color:rgba(255,255,255,.72); }
+    html[data-design="citrus"] .summary-card:nth-child(3) { background:#ffd21e; }
+    html[data-design="citrus"] .calendar-panel { border-top-width:3px; }
+    html[data-design="citrus"] .day-cell, html[data-design="citrus"] .event-chip, html[data-design="citrus"] .icon-btn { border-radius:2px; }
+    .citrus-actions { display:grid; grid-template-columns:1.1fr 1fr 1fr; gap:12px; margin-bottom:16px; }
+    .citrus-block { min-height:124px; display:flex; flex-direction:column; justify-content:space-between; padding:18px; border:3px solid #10379d; border-radius:4px; background:#ffd21e; color:#10379d; box-shadow:7px 7px 0 #10379d; cursor:pointer; text-align:left; font-family:Impact,"Arial Narrow",sans-serif; font-size:24px; line-height:.95; text-transform:uppercase; }
+    .citrus-block:nth-child(2) { background:#10379d; color:#fff; }
+    .citrus-block:nth-child(3) { background:#fff9ed; }
+    .citrus-block span { font:900 10px/1.2 Inter,sans-serif; letter-spacing:.12em; }
+    .citrus-block b { align-self:flex-end; font:900 30px/1 Inter,sans-serif; }
+    html[data-design="citrus"] .footnote { color:rgba(255,255,255,.8); }
+    @media (max-width:720px) { html[data-design="citrus"] main { min-height:100vh; } html[data-design="citrus"] .topbar { min-height:105px; box-shadow:5px 5px 0 #10379d; } html[data-design="citrus"] h1 { font-size:48px; } .citrus-actions { grid-template-columns:1fr 1fr; } .citrus-block:first-child { grid-column:1/-1; } .citrus-block { min-height:94px; font-size:19px; box-shadow:5px 5px 0 #10379d; } }
   </style>
 </head>
 <body>
@@ -571,13 +574,10 @@
       </header>
 
       <section class="view active" id="healthView" aria-labelledby="viewTitle">
-        <section class="dopamine-focus" aria-label="Schnelleintrag">
-          <div class="dopamine-focus-copy"><small>DEIN CHECK-IN</small><h2>Wie geht es dir?</h2><p>Ein kurzer Eintrag reicht. Du kannst später ergänzen.</p></div>
-          <div class="dopamine-actions">
-            <button class="dopamine-action" type="button" data-quick-type="symptom"><span aria-hidden="true">♡</span>Symptom</button>
-            <button class="dopamine-action" type="button" data-quick-type="appointment"><span aria-hidden="true">▦</span>Arzttermin</button>
-            <button class="dopamine-action" type="button" data-view="supplements"><span aria-hidden="true">◒</span>NEM</button>
-          </div>
+        <section class="citrus-actions" aria-label="Schnellaktionen">
+          <button class="citrus-block" type="button" data-quick-type="symptom"><span>01 · GESUNDHEIT</span>SYMPTOM<br>EINTRAGEN<b>→</b></button>
+          <button class="citrus-block" type="button" data-quick-type="appointment"><span>02 · PLANEN</span>ARZTTERMIN<b>→</b></button>
+          <button class="citrus-block" type="button" data-view="supplements"><span>03 · ROUTINE</span>NEM-PLAN<b>→</b></button>
         </section>
         <div class="summary-strip" id="healthSummary"></div>
         <div class="workspace">
@@ -731,7 +731,7 @@
       clock: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>'
     };
 
-    const STORAGE_KEY = 'vitachronik-design01-v1';
+    const STORAGE_KEY = 'vitachronik-design04-v1';
     const monthFormat = new Intl.DateTimeFormat('de-DE', { month: 'long', year: 'numeric' });
     const longDateFormat = new Intl.DateTimeFormat('de-DE', { weekday: 'long', day: 'numeric', month: 'long' });
     const shortDateFormat = new Intl.DateTimeFormat('de-DE', { day: '2-digit', month: '2-digit' });
@@ -807,8 +807,8 @@
     function renderView() {
       const viewIds = { health:'healthView', supplements:'supplementsView', settings:'settingsView' };
       const copy = {
-        health: { eyebrow: state.settings.profileName ? `Hallo ${state.settings.profileName}` : 'Deine Gesundheit', title:'Heute', add:'Eintragen' },
-        supplements: { eyebrow:'Eigener NEM-Kalender', title:'Nahrungsergänzung', add:'NEM planen' },
+        health: { eyebrow: state.settings.profileName ? `HALLO ${state.settings.profileName}` : 'VITACHRONIK', title:'DEIN TAG', add:'EINTRAGEN' },
+        supplements: { eyebrow:'DEIN EIGENER KALENDER', title:'NEM-PLAN', add:'NEM PLANEN' },
         settings: { eyebrow:'VitaChronik verwalten', title:'Einstellungen', add:'' }
       };
       const activeCopy = copy[state.activeView] || copy.health;
@@ -832,7 +832,7 @@
 
     function applyTheme() {
       document.documentElement.dataset.theme = resolveTheme();
-      document.documentElement.dataset.design = 'dopamine';
+      document.documentElement.dataset.design = 'citrus';
       const designColors = { dopamine:'#6c4cff', focus:'#007d8f', candy:'#9a58ed', citrus:'#ffb92e', berry:'#7a2e91', ocean:'#1261d5', neon:'#17122c', sunshine:'#f54d35', pixel:'#3e45d7', rainbow:'#8070df' };
       document.querySelector('meta[name="theme-color"]').content = designColors[state.settings.design] || designColors.dopamine;
     }

@@ -1,6 +1,6 @@
-# VitaChronik – Design 01 „Dopamin Pop“
+# VitaChronik – Design 04 „Citrus Boost“
 
-Diese ZIP enthält ausschließlich die feste Designvariante **01 Dopamin Pop**. Eine Designauswahl innerhalb der App ist bewusst nicht enthalten.
+Diese ZIP enthält ausschließlich die feste Designvariante **04 Citrus Boost**. Eine Designauswahl innerhalb der App ist bewusst nicht enthalten.
 
 VitaChronik ist eine statische, responsive Web-App zur persönlichen Dokumentation von Symptomen, Krankheiten, Arztbesuchen, Terminen und Nahrungsergänzungsmitteln.
 

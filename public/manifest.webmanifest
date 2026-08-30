@@ -1,7 +1,7 @@
 {
-  "id": "./vitachronik-design-01/",
-  "name": "VitaChronik 01 – Dopamin Pop",
-  "short_name": "Vita 01",
+  "id": "./vitachronik-design-04/",
+  "name": "VitaChronik 04 – Citrus Boost",
+  "short_name": "Vita 04",
   "description": "Persönlicher Offline-Kalender für Krankheitsverlauf, Arzttermine und Nahrungsergänzungsmittel.",
   "lang": "de-DE",
   "dir": "ltr",
@@ -9,8 +9,8 @@
   "scope": "./",
   "display": "standalone",
   "orientation": "any",
-  "background_color": "#4a12e8",
-  "theme_color": "#6c22ff",
+  "background_color": "#fff8eb",
+  "theme_color": "#ff6a00",
   "categories": ["health", "lifestyle", "medical"],
   "icons": [
     {
