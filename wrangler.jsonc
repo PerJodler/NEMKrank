@@ -1,6 +1,6 @@
 {
   "$schema": "./node_modules/wrangler/config-schema.json",
-  "name": "vitachronik",
+  "name": "vitachronik-design-01",
   "compatibility_date": "2026-08-30",
   "workers_dev": true,
   "preview_urls": true,

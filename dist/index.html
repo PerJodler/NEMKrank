@@ -7,12 +7,12 @@
   <meta name="description" content="VitaChronik – persönlicher Kalender für Symptome, Krankheiten, Arzttermine und Nahrungsergänzungsmittel." />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-  <meta name="apple-mobile-web-app-title" content="VitaChronik" />
+  <meta name="apple-mobile-web-app-title" content="Vita 01" />
   <meta name="mobile-web-app-capable" content="yes" />
   <link rel="manifest" href="./manifest.webmanifest" />
   <link rel="apple-touch-icon" href="./icons/apple-touch-icon.png" />
   <link rel="icon" type="image/svg+xml" href="./icons/icon.svg" />
-  <title>VitaChronik</title>
+  <title>VitaChronik – Design 01 Dopamin Pop</title>
   <style>
     :root {
       --ink: #202638;
@@ -496,6 +496,31 @@
       .design-count { display:inline-flex; margin-top:10px; }
     }
     @media (max-width: 390px) { .design-grid { grid-template-columns:1fr; } }
+    /* Feste Konzeptversion 01 – Dopamin Pop */
+    html[data-design="dopamine"] body { background:#4812df; }
+    html[data-design="dopamine"] main { background:linear-gradient(150deg,#5114ef 0%,#6c21ff 40%,#4012c7 100%); }
+    html[data-design="dopamine"] .sidebar { background:#fff; }
+    html[data-design="dopamine"] .topbar { background:linear-gradient(120deg,#6b21ff,#8e30ff 42%,#ff2e93); }
+    html[data-design="dopamine"] .view { color:#171338; }
+    html[data-design="dopamine"] .footnote { color:rgba(255,255,255,.72); }
+    html[data-design="dopamine"] .summary-card { border:2px solid rgba(255,255,255,.74); box-shadow:0 14px 28px rgba(34,6,105,.24); }
+    html[data-design="dopamine"] .summary-card:nth-child(1) { background:#8c4cff; color:#fff; }
+    html[data-design="dopamine"] .summary-card:nth-child(2) { background:#ffcf00; color:#171338; }
+    html[data-design="dopamine"] .summary-card:nth-child(3) { background:#08dcc5; color:#171338; }
+    html[data-design="dopamine"] .summary-card span { color:inherit; opacity:.74; }
+    html[data-design="dopamine"] .panel, html[data-design="dopamine"] .settings-card { box-shadow:0 20px 42px rgba(35,5,109,.25); }
+    .dopamine-focus { display:grid; grid-template-columns:minmax(0,1fr) auto; gap:18px; align-items:center; margin-bottom:14px; padding:22px 24px; border-radius:30px; background:linear-gradient(120deg,#ff2d93,#ff57ad); color:#fff; box-shadow:0 18px 34px rgba(68,6,92,.25); overflow:hidden; position:relative; }
+    .dopamine-focus::after { content:""; position:absolute; width:190px; height:190px; right:-80px; top:-85px; border:30px solid rgba(255,255,255,.14); border-radius:50%; }
+    .dopamine-focus-copy { position:relative; z-index:1; }
+    .dopamine-focus small { display:block; font-size:9px; font-weight:900; letter-spacing:.16em; opacity:.8; }
+    .dopamine-focus h2 { margin:4px 0 3px; font-size:clamp(27px,4vw,42px); letter-spacing:-.05em; }
+    .dopamine-focus p { margin:0; opacity:.82; }
+    .dopamine-actions { position:relative; z-index:1; display:grid; grid-template-columns:repeat(3,92px); gap:9px; }
+    .dopamine-action { min-height:86px; padding:10px 7px; border:2px solid rgba(255,255,255,.45); border-radius:22px; background:#fff; color:#4e19d3; cursor:pointer; font-size:11px; font-weight:900; box-shadow:0 8px 16px rgba(50,8,88,.18); }
+    .dopamine-action:nth-child(2) { background:#ffcf00; color:#1b1740; }
+    .dopamine-action:nth-child(3) { background:#09ddc7; color:#152e34; }
+    .dopamine-action span { display:block; margin-bottom:4px; font-size:25px; line-height:1; }
+    @media (max-width:720px) { html[data-design="dopamine"] main { min-height:100vh; } .dopamine-focus { grid-template-columns:1fr; padding:18px; border-radius:24px; } .dopamine-actions { grid-template-columns:repeat(3,1fr); } .dopamine-action { min-height:74px; } }
   </style>
 </head>
 <body>
@@ -537,10 +562,6 @@
           <h1 id="viewTitle">Krankheitsverlauf</h1>
         </div>
         <div class="top-actions">
-          <button class="design-cycle" id="cycleDesignButton" type="button" aria-label="Zum nächsten Design wechseln" title="Design wechseln">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3a9 9 0 1 0 0 18h1.5a1.5 1.5 0 0 0 0-3H12a2 2 0 0 1 0-4h3a6 6 0 0 0 0-12h-3Z"/><circle cx="7.5" cy="10" r="1" fill="currentColor"/><circle cx="10" cy="6.5" r="1" fill="currentColor"/><circle cx="15" cy="7" r="1" fill="currentColor"/></svg>
-            <span id="currentDesignName">Dopamin Pop</span>
-          </button>
           <div class="date-pill" id="todayLabel"></div>
           <button class="primary-btn" id="mainAddButton">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 5v14M5 12h14"/></svg>
@@ -550,6 +571,14 @@
       </header>
 
       <section class="view active" id="healthView" aria-labelledby="viewTitle">
+        <section class="dopamine-focus" aria-label="Schnelleintrag">
+          <div class="dopamine-focus-copy"><small>DEIN CHECK-IN</small><h2>Wie geht es dir?</h2><p>Ein kurzer Eintrag reicht. Du kannst später ergänzen.</p></div>
+          <div class="dopamine-actions">
+            <button class="dopamine-action" type="button" data-quick-type="symptom"><span aria-hidden="true">♡</span>Symptom</button>
+            <button class="dopamine-action" type="button" data-quick-type="appointment"><span aria-hidden="true">▦</span>Arzttermin</button>
+            <button class="dopamine-action" type="button" data-view="supplements"><span aria-hidden="true">◒</span>NEM</button>
+          </div>
+        </section>
         <div class="summary-strip" id="healthSummary"></div>
         <div class="workspace">
           <section class="panel calendar-panel" aria-label="Kalender für Krankheitsverlauf und Arzttermine">
@@ -608,24 +637,6 @@
       </section>
 
       <section class="view" id="settingsView" aria-labelledby="viewTitle">
-        <section class="settings-card design-studio">
-          <div class="design-intro">
-            <div><h2>Dein App-Design</h2><p>Zehn bunte Stile – klar gegliedert, schnell erfassbar und mit großen, eindeutigen Bedienelementen. Tippe ein Design an und die gesamte App wechselt sofort.</p></div>
-            <span class="design-count">10 Designs</span>
-          </div>
-          <div class="design-grid" id="designPicker" aria-label="App-Design auswählen">
-            <button type="button" class="design-option design-dopamine" data-design-choice="dopamine"><span class="design-preview"><i></i><i></i><i></i></span><strong>Dopamin Pop</strong><span>Lebendig & motivierend</span></button>
-            <button type="button" class="design-option design-focus" data-design-choice="focus"><span class="design-preview"><i></i><i></i><i></i></span><strong>Fokus Flow</strong><span>Klar & frisch</span></button>
-            <button type="button" class="design-option design-candy" data-design-choice="candy"><span class="design-preview"><i></i><i></i><i></i></span><strong>Candy Cloud</strong><span>Weich & verspielt</span></button>
-            <button type="button" class="design-option design-citrus" data-design-choice="citrus"><span class="design-preview"><i></i><i></i><i></i></span><strong>Citrus Boost</strong><span>Sonnig & aktiv</span></button>
-            <button type="button" class="design-option design-berry" data-design-choice="berry"><span class="design-preview"><i></i><i></i><i></i></span><strong>Berry Brain</strong><span>Warm & konzentriert</span></button>
-            <button type="button" class="design-option design-ocean" data-design-choice="ocean"><span class="design-preview"><i></i><i></i><i></i></span><strong>Ocean Energy</strong><span>Blau & belebend</span></button>
-            <button type="button" class="design-option design-neon" data-design-choice="neon"><span class="design-preview"><i></i><i></i><i></i></span><strong>Neon Night</strong><span>Dunkel & kontrastreich</span></button>
-            <button type="button" class="design-option design-sunshine" data-design-choice="sunshine"><span class="design-preview"><i></i><i></i><i></i></span><strong>Sunshine Club</strong><span>Fröhlich & warm</span></button>
-            <button type="button" class="design-option design-pixel" data-design-choice="pixel"><span class="design-preview"><i></i><i></i><i></i></span><strong>Pixel Play</strong><span>Kantig & direkt</span></button>
-            <button type="button" class="design-option design-rainbow" data-design-choice="rainbow"><span class="design-preview"><i></i><i></i><i></i></span><strong>Rainbow Calm</strong><span>Bunt & ausgeglichen</span></button>
-          </div>
-        </section>
         <div class="settings-grid">
           <section class="settings-card">
             <div class="settings-card-head"><div class="settings-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg></div><div><h2>Persönlich</h2><p>Nur auf diesem Gerät gespeichert</p></div></div>
@@ -720,7 +731,7 @@
       clock: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>'
     };
 
-    const STORAGE_KEY = 'vitachronik-v1';
+    const STORAGE_KEY = 'vitachronik-design01-v1';
     const monthFormat = new Intl.DateTimeFormat('de-DE', { month: 'long', year: 'numeric' });
     const longDateFormat = new Intl.DateTimeFormat('de-DE', { weekday: 'long', day: 'numeric', month: 'long' });
     const shortDateFormat = new Intl.DateTimeFormat('de-DE', { day: '2-digit', month: '2-digit' });
@@ -752,7 +763,7 @@
         { id:'supp-3', name:'Omega-3', dose:2, unit:'Kapsel', time:'12:30', weekdays:[0,1,2,3,4,5,6], stock:42, threshold:14, refill:90 }
       ],
       intakeLog: {},
-      settings: { theme:'system', design:'dopamine', profileName:'' }
+      settings: { theme:'system', profileName:'' }
     };
 
     function loadState() {
@@ -796,7 +807,7 @@
     function renderView() {
       const viewIds = { health:'healthView', supplements:'supplementsView', settings:'settingsView' };
       const copy = {
-        health: { eyebrow: state.settings.profileName ? `Hallo ${state.settings.profileName}` : 'Krankheitskalender', title:'Krankheitsverlauf', add:'Eintrag hinzufügen' },
+        health: { eyebrow: state.settings.profileName ? `Hallo ${state.settings.profileName}` : 'Deine Gesundheit', title:'Heute', add:'Eintragen' },
         supplements: { eyebrow:'Eigener NEM-Kalender', title:'Nahrungsergänzung', add:'NEM planen' },
         settings: { eyebrow:'VitaChronik verwalten', title:'Einstellungen', add:'' }
       };
@@ -821,7 +832,7 @@
 
     function applyTheme() {
       document.documentElement.dataset.theme = resolveTheme();
-      document.documentElement.dataset.design = state.settings.design || 'dopamine';
+      document.documentElement.dataset.design = 'dopamine';
       const designColors = { dopamine:'#6c4cff', focus:'#007d8f', candy:'#9a58ed', citrus:'#ffb92e', berry:'#7a2e91', ocean:'#1261d5', neon:'#17122c', sunshine:'#f54d35', pixel:'#3e45d7', rainbow:'#8070df' };
       document.querySelector('meta[name="theme-color"]').content = designColors[state.settings.design] || designColors.dopamine;
     }
@@ -835,9 +846,6 @@
       const nameInput = document.getElementById('profileName');
       if (document.activeElement !== nameInput) nameInput.value = state.settings.profileName || '';
       document.querySelectorAll('[data-theme-choice]').forEach(button => button.classList.toggle('active', button.dataset.themeChoice === state.settings.theme));
-      document.querySelectorAll('[data-design-choice]').forEach(button => button.classList.toggle('active', button.dataset.designChoice === (state.settings.design || 'dopamine')));
-      const designNames = { dopamine:'Dopamin Pop', focus:'Fokus Flow', candy:'Candy Cloud', citrus:'Citrus Boost', berry:'Berry Brain', ocean:'Ocean Energy', neon:'Neon Night', sunshine:'Sunshine Club', pixel:'Pixel Play', rainbow:'Rainbow Calm' };
-      document.getElementById('currentDesignName').textContent = designNames[state.settings.design] || designNames.dopamine;
       const online = navigator.onLine;
       const connection = document.getElementById('connectionStatus');
       connection.textContent = online ? 'Online' : 'Offline';
@@ -990,13 +998,8 @@
       if (viewButton) setActiveView(viewButton.dataset.view);
       const themeChoice = event.target.closest('[data-theme-choice]');
       if (themeChoice) { state.settings.theme=themeChoice.dataset.themeChoice; persist(); render(); }
-      const designChoice = event.target.closest('[data-design-choice]');
-      if (designChoice) { state.settings.design=designChoice.dataset.designChoice; persist(); render(); showToast(`Design: ${designChoice.querySelector('strong').textContent}`); }
-      if (event.target.closest('#cycleDesignButton')) {
-        const designs=['dopamine','focus','candy','citrus','berry','ocean','neon','sunshine','pixel','rainbow'];
-        const current=Math.max(0,designs.indexOf(state.settings.design || 'dopamine'));
-        state.settings.design=designs[(current+1)%designs.length]; persist(); render(); showToast(`Design: ${document.getElementById('currentDesignName').textContent}`);
-      }
+      const quickType = event.target.closest('[data-quick-type]');
+      if (quickType) { state.activeView='health'; state.selectedDate=dateKey(today); document.getElementById('entryType').value=quickType.dataset.quickType; document.getElementById('entryDate').value=state.selectedDate; updateHealthFields(); document.getElementById('healthDialog').showModal(); }
       const nav = event.target.closest('[data-move]');
       if (nav) moveMonth(nav.dataset.calendar, Number(nav.dataset.move));
       const healthDay = event.target.closest('[data-health-date]');
