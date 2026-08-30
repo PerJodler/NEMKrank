@@ -3,53 +3,62 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="theme-color" content="#153f3a" />
+  <meta name="theme-color" content="#f3f5f9" />
   <meta name="description" content="VitaChronik – persönlicher Kalender für Symptome, Krankheiten, Arzttermine und Nahrungsergänzungsmittel." />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta name="apple-mobile-web-app-title" content="VitaChronik" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <link rel="manifest" href="./manifest.webmanifest" />
+  <link rel="apple-touch-icon" href="./icons/apple-touch-icon.png" />
+  <link rel="icon" type="image/svg+xml" href="./icons/icon.svg" />
   <title>VitaChronik</title>
   <style>
     :root {
-      --ink: #173532;
-      --muted: #6a7976;
-      --soft: #f3f5ef;
-      --paper: #fbfcf8;
+      --ink: #202638;
+      --muted: #778094;
+      --soft: #f3f5f9;
+      --paper: #f8f9fc;
       --card: #ffffff;
-      --line: #dfe6df;
-      --forest: #153f3a;
-      --forest-2: #245d54;
-      --mint: #cce7dc;
-      --mint-2: #e8f4ee;
-      --coral: #e97862;
-      --coral-soft: #fdeae5;
-      --amber: #e6a83e;
-      --amber-soft: #fff2d8;
-      --lilac: #7b71a8;
-      --lilac-soft: #eeeafa;
-      --shadow: 0 12px 36px rgba(20, 63, 58, .08);
-      --radius-lg: 24px;
-      --radius-md: 16px;
-      --radius-sm: 11px;
+      --line: #e3e7ef;
+      --forest: #202638;
+      --forest-2: #2f68ff;
+      --mint: #dce7ff;
+      --mint-2: #edf2ff;
+      --coral: #2f68ff;
+      --coral-soft: #e9efff;
+      --amber: #f0a92f;
+      --amber-soft: #fff2d7;
+      --lilac: #7959d9;
+      --lilac-soft: #efeafe;
+      --shadow: 0 14px 42px rgba(37, 47, 75, .08);
+      --radius-lg: 28px;
+      --radius-md: 20px;
+      --radius-sm: 13px;
     }
 
     * { box-sizing: border-box; }
 
-    html { scroll-behavior: smooth; }
+    html { scroll-behavior: smooth; background: var(--soft); }
 
     body {
       margin: 0;
       min-width: 320px;
       color: var(--ink);
       background: var(--soft);
-      font: 500 15px/1.45 Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font: 500 15px/1.45 Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", sans-serif;
+      overscroll-behavior-y: none;
+      -webkit-tap-highlight-color: transparent;
     }
 
     button, input, textarea, select { font: inherit; }
     button { color: inherit; }
     button:focus-visible, input:focus-visible, textarea:focus-visible, select:focus-visible {
-      outline: 3px solid rgba(233, 120, 98, .28);
+      outline: 3px solid rgba(47, 104, 255, .24);
       outline-offset: 2px;
     }
 
-    .app-shell { min-height: 100vh; display: grid; grid-template-columns: 250px minmax(0, 1fr); }
+    .app-shell { min-height: 100vh; display: grid; grid-template-columns: 112px minmax(0, 1fr); }
 
     .sidebar {
       min-height: 100vh;
@@ -58,51 +67,51 @@
       align-self: start;
       display: flex;
       flex-direction: column;
-      padding: 28px 18px 22px;
-      background: var(--forest);
-      color: #f4faf7;
+      padding: 24px 12px 18px;
+      background: rgba(255,255,255,.92);
+      border-right: 1px solid var(--line);
+      color: var(--ink);
     }
 
-    .brand { display: flex; align-items: center; gap: 11px; padding: 0 10px 28px; }
+    .brand { display: flex; justify-content: center; align-items: center; gap: 11px; padding: 0 0 28px; }
     .brand-mark {
       width: 38px; height: 38px; display: grid; place-items: center;
-      border-radius: 13px; background: var(--mint); color: var(--forest);
+      width: 46px; height: 46px; border-radius: 16px; background: var(--forest); color: white;
     }
-    .brand strong { display: block; font-size: 19px; letter-spacing: -.03em; }
-    .brand small { color: #a9c6bf; font-size: 11px; letter-spacing: .04em; text-transform: uppercase; }
+    .brand-copy { display: none; }
 
-    .nav-label { margin: 2px 12px 9px; color: #8eb1a9; font-size: 10px; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; }
+    .nav-label { display: none; }
     .nav-btn {
-      width: 100%; display: flex; align-items: center; gap: 12px;
-      border: 0; padding: 12px 13px; margin: 3px 0; border-radius: 13px;
-      background: transparent; color: #c7ddd7; cursor: pointer; text-align: left;
+      width: 100%; min-height: 72px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 7px;
+      border: 0; padding: 8px 4px; margin: 3px 0; border-radius: 18px;
+      background: transparent; color: var(--muted); cursor: pointer; text-align: center; font-size: 10px; font-weight: 760;
     }
-    .nav-btn:hover { background: rgba(255,255,255,.07); color: #fff; }
-    .nav-btn.active { background: #f4faf7; color: var(--forest); box-shadow: 0 8px 22px rgba(0,0,0,.14); }
-    .nav-btn svg { width: 19px; height: 19px; flex: 0 0 auto; }
+    .nav-btn:hover { background: var(--mint-2); color: var(--forest-2); }
+    .nav-btn.active { background: var(--forest); color: #fff; box-shadow: 0 10px 24px rgba(32,38,56,.16); }
+    .nav-btn svg { width: 21px; height: 21px; flex: 0 0 auto; }
     .nav-spacer { flex: 1; }
     .privacy-card {
-      padding: 14px; border: 1px solid rgba(204,231,220,.18); border-radius: 16px;
-      background: rgba(255,255,255,.05); color: #bdd5cf; font-size: 12px;
+      padding: 10px 6px; border: 1px solid var(--line); border-radius: 16px;
+      background: var(--paper); color: var(--muted); font-size: 9px; text-align: center;
     }
-    .privacy-card strong { color: #fff; display: flex; align-items: center; gap: 8px; margin-bottom: 5px; }
+    .privacy-card strong { color: var(--ink); display: flex; flex-direction: column; align-items: center; gap: 5px; margin-bottom: 4px; }
 
-    main { min-width: 0; padding: 24px 28px 44px; }
-    .topbar { display: flex; justify-content: space-between; align-items: center; gap: 18px; max-width: 1440px; margin: 0 auto 20px; }
-    .eyebrow { color: var(--coral); font-size: 11px; font-weight: 850; letter-spacing: .12em; text-transform: uppercase; }
-    h1 { margin: 2px 0 0; font-size: clamp(25px, 3vw, 36px); line-height: 1.1; letter-spacing: -.045em; }
+    main { min-width: 0; padding: 28px 32px 48px; }
+    .topbar { display: flex; justify-content: space-between; align-items: center; gap: 18px; max-width: 1320px; margin: 0 auto 22px; }
+    .eyebrow { color: var(--forest-2); font-size: 10px; font-weight: 850; letter-spacing: .14em; text-transform: uppercase; }
+    h1 { margin: 3px 0 0; font-size: clamp(27px, 3vw, 39px); line-height: 1.05; letter-spacing: -.052em; }
     .top-actions { display: flex; align-items: center; gap: 9px; }
-    .date-pill { padding: 9px 12px; border: 1px solid var(--line); border-radius: 999px; background: rgba(255,255,255,.64); color: var(--muted); font-size: 12px; }
+    .date-pill { padding: 10px 14px; border: 1px solid var(--line); border-radius: 999px; background: #fff; color: var(--muted); font-size: 12px; box-shadow: 0 5px 18px rgba(37,47,75,.05); }
 
     .primary-btn, .secondary-btn, .icon-btn, .text-btn {
       border: 0; cursor: pointer; transition: transform .16s ease, background .16s ease, border-color .16s ease;
     }
     .primary-btn {
       display: inline-flex; align-items: center; justify-content: center; gap: 8px;
-      min-height: 42px; padding: 0 16px; border-radius: 12px; color: white; background: var(--coral); font-weight: 760;
-      box-shadow: 0 7px 18px rgba(233,120,98,.2);
+      min-height: 44px; padding: 0 17px; border-radius: 14px; color: white; background: var(--coral); font-weight: 760;
+      box-shadow: 0 9px 22px rgba(47,104,255,.22);
     }
-    .primary-btn:hover { background: #d96450; transform: translateY(-1px); }
+    .primary-btn:hover { background: #1f57e7; transform: translateY(-1px); }
     .secondary-btn {
       display: inline-flex; align-items: center; justify-content: center; gap: 8px;
       min-height: 39px; padding: 0 13px; border: 1px solid var(--line); border-radius: 11px; background: #fff; font-weight: 720;
@@ -113,14 +122,14 @@
     .icon-btn:hover { background: var(--mint-2); }
     .icon-btn svg, .primary-btn svg, .secondary-btn svg { width: 17px; height: 17px; }
 
-    .view { display: none; max-width: 1440px; margin: 0 auto; }
+    .view { display: none; max-width: 1320px; margin: 0 auto; }
     .view.active { display: block; animation: enter .26s ease both; }
     @keyframes enter { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
 
     .summary-strip { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 14px; }
     .summary-card {
       min-width: 0; display: flex; align-items: center; gap: 13px; padding: 15px 16px;
-      border: 1px solid var(--line); border-radius: var(--radius-md); background: rgba(255,255,255,.74);
+      border: 1px solid var(--line); border-radius: var(--radius-md); background: #fff; box-shadow: 0 8px 30px rgba(37,47,75,.04);
     }
     .summary-icon { width: 39px; height: 39px; flex: 0 0 auto; display: grid; place-items: center; border-radius: 12px; }
     .summary-icon svg { width: 19px; height: 19px; }
@@ -131,7 +140,7 @@
     .summary-card span { color: var(--muted); font-size: 12px; }
 
     .workspace { display: grid; grid-template-columns: minmax(0, 1.6fr) minmax(285px, .62fr); gap: 14px; align-items: start; }
-    .panel { border: 1px solid var(--line); border-radius: var(--radius-lg); background: var(--card); box-shadow: var(--shadow); }
+    .panel { border: 1px solid rgba(227,231,239,.88); border-radius: var(--radius-lg); background: var(--card); box-shadow: var(--shadow); }
     .calendar-panel { overflow: hidden; }
     .panel-head { min-height: 68px; display: flex; align-items: center; justify-content: space-between; gap: 14px; padding: 14px 18px; border-bottom: 1px solid var(--line); }
     .month-control { display: flex; align-items: center; gap: 8px; }
@@ -146,19 +155,19 @@
     .dot.future { background: var(--forest-2); }
 
     .weekdays, .calendar-grid { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); }
-    .weekdays { padding: 0 10px; background: #fafbf8; border-bottom: 1px solid var(--line); }
+    .weekdays { padding: 0 10px; background: var(--paper); border-bottom: 1px solid var(--line); }
     .weekdays div { padding: 10px 6px; text-align: center; color: #87938f; font-size: 10px; font-weight: 820; letter-spacing: .08em; text-transform: uppercase; }
     .calendar-grid { padding: 10px; }
     .day-cell {
       position: relative; min-height: 102px; padding: 9px; border: 1px solid transparent; border-radius: 14px;
       background: transparent; overflow: hidden; cursor: pointer; text-align: left;
     }
-    .day-cell:hover { background: #f7f9f5; }
+    .day-cell:hover { background: var(--paper); }
     .day-cell.outside { color: #b6bfbc; }
     .day-cell.today { background: var(--mint-2); }
     .day-cell.selected { border-color: var(--forest-2); box-shadow: inset 0 0 0 1px var(--forest-2); }
     .day-number { width: 25px; height: 25px; display: grid; place-items: center; border-radius: 8px; font-size: 12px; font-weight: 800; }
-    .today .day-number { background: var(--forest); color: white; }
+    .today .day-number { background: var(--forest-2); color: white; box-shadow: 0 5px 12px rgba(47,104,255,.22); }
     .event-chip {
       display: flex; align-items: center; gap: 5px; min-width: 0; margin-top: 5px; padding: 5px 6px; border-radius: 7px;
       background: var(--coral-soft); color: #a84837; font-size: 10px; font-weight: 740;
@@ -253,7 +262,48 @@
     .toast.show { opacity: 1; transform: translate(-50%, 0); }
     .mobile-nav { display: none; }
     .mobile-add { display: none; }
-    .footnote { max-width: 1440px; margin: 16px auto 0; color: #84908d; font-size: 10px; text-align: center; }
+    .footnote { max-width: 1320px; margin: 16px auto 0; color: #9299aa; font-size: 10px; text-align: center; }
+
+    .settings-grid { max-width: 940px; display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    .settings-card { padding: 20px; border: 1px solid var(--line); border-radius: var(--radius-lg); background: var(--card); box-shadow: var(--shadow); }
+    .settings-card.wide { grid-column: 1 / -1; }
+    .settings-card-head { display: flex; align-items: center; gap: 12px; margin-bottom: 17px; }
+    .settings-card-icon { width: 42px; height: 42px; display: grid; place-items: center; border-radius: 14px; background: var(--mint-2); color: var(--forest-2); }
+    .settings-card-icon svg { width: 20px; height: 20px; }
+    .settings-card h2 { margin: 0; font-size: 17px; letter-spacing: -.025em; }
+    .settings-card-head p { margin: 2px 0 0; color: var(--muted); font-size: 11px; }
+    .setting-row { display: flex; align-items: center; justify-content: space-between; gap: 16px; min-height: 56px; padding: 10px 0; border-top: 1px solid var(--line); }
+    .setting-row:first-of-type { border-top: 0; }
+    .setting-copy strong { display: block; font-size: 13px; }
+    .setting-copy span { display: block; margin-top: 2px; color: var(--muted); font-size: 10px; }
+    .setting-row input[type="text"] { max-width: 210px; }
+    .segmented { display: inline-grid; grid-template-columns: repeat(3, 1fr); padding: 3px; border-radius: 12px; background: var(--soft); }
+    .segmented button { min-width: 68px; min-height: 34px; padding: 0 10px; border: 0; border-radius: 9px; background: transparent; color: var(--muted); cursor: pointer; font-size: 10px; font-weight: 800; }
+    .segmented button.active { background: var(--card); color: var(--forest-2); box-shadow: 0 4px 12px rgba(37,47,75,.09); }
+    .status-pill { display: inline-flex; align-items: center; gap: 7px; padding: 7px 10px; border-radius: 99px; background: var(--mint-2); color: var(--forest-2); font-size: 10px; font-weight: 820; }
+    .status-pill::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: currentColor; }
+    .status-pill.offline { background: var(--amber-soft); color: #966617; }
+    .settings-actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
+    .danger-btn { color: #b44b52; }
+    .install-layout { display: grid; grid-template-columns: minmax(0,1fr) auto; align-items: center; gap: 22px; }
+    .install-steps { margin: 10px 0 0; padding-left: 18px; color: var(--muted); font-size: 12px; }
+    .install-steps li + li { margin-top: 5px; }
+    .install-badge { width: 86px; height: 86px; display: grid; place-items: center; border-radius: 25px; background: var(--forest); color: #fff; box-shadow: 0 15px 32px rgba(32,38,56,.18); }
+    .install-badge svg { width: 44px; height: 44px; }
+
+    html[data-theme="dark"] {
+      color-scheme: dark;
+      --ink: #eef1f8; --muted: #9da6b8; --soft: #111521; --paper: #171c2a; --card: #1b2130;
+      --line: #2b3344; --forest: #e6ebf7; --forest-2: #7da0ff; --mint: #26365f; --mint-2: #222e4b;
+      --coral: #7197ff; --coral-soft: #252f4c; --amber-soft: #3b3120; --lilac-soft: #302a49;
+      --shadow: 0 14px 42px rgba(0,0,0,.22);
+    }
+    html[data-theme="dark"] .sidebar, html[data-theme="dark"] .date-pill, html[data-theme="dark"] .summary-card,
+    html[data-theme="dark"] .secondary-btn, html[data-theme="dark"] .icon-btn, html[data-theme="dark"] input,
+    html[data-theme="dark"] textarea, html[data-theme="dark"] select, html[data-theme="dark"] dialog { background: var(--card); color: var(--ink); }
+    html[data-theme="dark"] .nav-btn.active, html[data-theme="dark"] .install-badge { background: #4d78f2; color: white; }
+    html[data-theme="dark"] .dialog-head, html[data-theme="dark"] .dialog-actions { background: rgba(27,33,48,.97); }
+    html[data-theme="dark"] .entry-card, html[data-theme="dark"] .dose-check { background: var(--paper); }
 
     @media (max-width: 1060px) {
       .app-shell { grid-template-columns: 84px minmax(0,1fr); }
@@ -269,7 +319,7 @@
     @media (max-width: 720px) {
       .app-shell { display: block; }
       .sidebar { display: none; }
-      main { padding: 17px 12px 92px; }
+      main { padding: calc(15px + env(safe-area-inset-top)) 12px calc(100px + env(safe-area-inset-bottom)); }
       .topbar { align-items: flex-start; margin-bottom: 15px; }
       .date-pill { display: none; }
       .top-actions .primary-btn { display: none; }
@@ -286,14 +336,21 @@
       .event-chip::before, .event-chip span, .more-chip, .dose-count { display: none; }
       .side-stack { grid-template-columns: 1fr; }
       .mobile-nav {
-        position: fixed; z-index: 10; left: 10px; right: 10px; bottom: 10px; display: grid; grid-template-columns: 1fr 1fr;
-        padding: 6px; border: 1px solid rgba(255,255,255,.2); border-radius: 17px; background: rgba(21,63,58,.96); box-shadow: 0 12px 34px rgba(15,45,41,.25); backdrop-filter: blur(10px);
+        position: fixed; z-index: 10; left: 10px; right: 10px; bottom: calc(8px + env(safe-area-inset-bottom)); display: grid; grid-template-columns: repeat(3, 1fr);
+        padding: 6px; border: 1px solid var(--line); border-radius: 21px; background: rgba(255,255,255,.94); box-shadow: 0 14px 38px rgba(37,47,75,.18); backdrop-filter: blur(16px);
       }
-      .mobile-nav button { min-height: 48px; display: flex; align-items: center; justify-content: center; gap: 7px; border: 0; border-radius: 12px; background: transparent; color: #bcd5ce; font-size: 11px; font-weight: 800; }
-      .mobile-nav button.active { background: white; color: var(--forest); }
-      .mobile-add { position: fixed; z-index: 11; right: 18px; bottom: 78px; width: 49px; height: 49px; display: grid; place-items: center; border: 0; border-radius: 16px; background: var(--coral); color: white; box-shadow: 0 10px 24px rgba(233,120,98,.35); }
+      .mobile-nav button { min-height: 52px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; border: 0; border-radius: 15px; background: transparent; color: var(--muted); font-size: 9px; font-weight: 800; }
+      .mobile-nav button.active { background: var(--mint-2); color: var(--forest-2); }
+      html[data-theme="dark"] .mobile-nav { background: rgba(27,33,48,.94); }
+      .mobile-add { position: fixed; z-index: 11; right: 18px; bottom: calc(84px + env(safe-area-inset-bottom)); width: 52px; height: 52px; display: grid; place-items: center; border: 0; border-radius: 18px; background: var(--coral); color: white; box-shadow: 0 12px 26px rgba(47,104,255,.32); }
       .form-grid { grid-template-columns: 1fr; }
       .field.full { grid-column: auto; }
+      .settings-grid { grid-template-columns: 1fr; }
+      .settings-card.wide { grid-column: auto; }
+      .setting-row { align-items: flex-start; flex-direction: column; gap: 8px; }
+      .setting-row input[type="text"] { max-width: none; }
+      .install-layout { grid-template-columns: 1fr; }
+      .install-badge { display: none; }
     }
 
     @media (prefers-reduced-motion: reduce) {
@@ -313,11 +370,15 @@
       <div class="nav-label">Kalender</div>
       <button class="nav-btn active" data-view="health" aria-current="page">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M8 3v4M16 3v4M3 10h18"/><path d="M8 15h.01M12 15h.01M16 15h.01" stroke-width="3"/></svg>
-        <span>Verlauf & Ärzte</span>
+        <span>Verlauf</span>
       </button>
       <button class="nav-btn" data-view="supplements">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M8.5 3.5a4.95 4.95 0 0 1 7 7l-5 5a4.95 4.95 0 0 1-7-7z"/><path d="m6 13 5 5"/><path d="m10 7 7 7"/></svg>
-        <span>Supplemente</span>
+        <span>NEM</span>
+      </button>
+      <button class="nav-btn" data-view="settings">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .34 1.88l.06.06-2.83 2.83-.06-.06A1.7 1.7 0 0 0 15 19.4a1.7 1.7 0 0 0-1 .6 1.7 1.7 0 0 0-.4 1.1V21h-4v-.09A1.7 1.7 0 0 0 8.6 19.4a1.7 1.7 0 0 0-1.88.34l-.06.06-2.83-2.83.06-.06A1.7 1.7 0 0 0 4.6 15a1.7 1.7 0 0 0-.6-1 1.7 1.7 0 0 0-1.1-.4H3v-4h.09A1.7 1.7 0 0 0 4.6 8.6a1.7 1.7 0 0 0-.34-1.88l-.06-.06 2.83-2.83.06.06A1.7 1.7 0 0 0 9 4.6a1.7 1.7 0 0 0 1-.6 1.7 1.7 0 0 0 .4-1.1V3h4v.09A1.7 1.7 0 0 0 15.4 4.6a1.7 1.7 0 0 0 1.88-.34l.06-.06 2.83 2.83-.06.06A1.7 1.7 0 0 0 19.4 9c.12.38.35.72.66.98.3.26.69.4 1.09.42H21v4h-.09A1.7 1.7 0 0 0 19.4 15Z"/></svg>
+        <span>Einstellungen</span>
       </button>
       <div class="nav-spacer"></div>
       <div class="privacy-card">
@@ -332,8 +393,8 @@
     <main>
       <header class="topbar">
         <div>
-          <div class="eyebrow" id="viewEyebrow">Gesundheitskalender</div>
-          <h1 id="viewTitle">Dein Verlauf auf einen Blick</h1>
+          <div class="eyebrow" id="viewEyebrow">Krankheitskalender</div>
+          <h1 id="viewTitle">Krankheitsverlauf</h1>
         </div>
         <div class="top-actions">
           <div class="date-pill" id="todayLabel"></div>
@@ -347,7 +408,7 @@
       <section class="view active" id="healthView" aria-labelledby="viewTitle">
         <div class="summary-strip" id="healthSummary"></div>
         <div class="workspace">
-          <section class="panel calendar-panel" aria-label="Gesundheitskalender">
+          <section class="panel calendar-panel" aria-label="Kalender für Krankheitsverlauf und Arzttermine">
             <div class="panel-head">
               <div class="month-control">
                 <h2 id="healthMonthLabel"></h2>
@@ -374,7 +435,7 @@
       <section class="view" id="supplementsView" aria-labelledby="viewTitle">
         <div class="summary-strip" id="supplementSummary"></div>
         <div class="workspace supplement-workspace">
-          <section class="panel calendar-panel" aria-label="Supplement-Kalender">
+          <section class="panel calendar-panel" aria-label="Separater Kalender für Nahrungsergänzungsmittel">
             <div class="panel-head">
               <div class="month-control">
                 <h2 id="supplementMonthLabel"></h2>
@@ -402,13 +463,48 @@
         </div>
       </section>
 
+      <section class="view" id="settingsView" aria-labelledby="viewTitle">
+        <div class="settings-grid">
+          <section class="settings-card">
+            <div class="settings-card-head"><div class="settings-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg></div><div><h2>Persönlich</h2><p>Nur auf diesem Gerät gespeichert</p></div></div>
+            <div class="setting-row"><div class="setting-copy"><strong>Dein Name</strong><span>Optional für die persönliche Begrüßung</span></div><input type="text" id="profileName" maxlength="40" placeholder="Vorname" autocomplete="name" /></div>
+            <div class="setting-row"><div class="setting-copy"><strong>Darstellung</strong><span>Systemeinstellung oder festes Design</span></div><div class="segmented" id="themePicker"><button type="button" data-theme-choice="system">System</button><button type="button" data-theme-choice="light">Hell</button><button type="button" data-theme-choice="dark">Dunkel</button></div></div>
+          </section>
+
+          <section class="settings-card">
+            <div class="settings-card-head"><div class="settings-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M12 3v18M5.6 5.6l12.8 12.8M3 12h18M5.6 18.4 18.4 5.6"/></svg></div><div><h2>Offline & Speicher</h2><p>Deine App funktioniert ohne Verbindung</p></div></div>
+            <div class="setting-row"><div class="setting-copy"><strong>Verbindung</strong><span id="connectionText">Status wird geprüft</span></div><span class="status-pill" id="connectionStatus">Online</span></div>
+            <div class="setting-row"><div class="setting-copy"><strong>Offline-Bereitschaft</strong><span>App-Dateien werden auf dem Gerät zwischengespeichert</span></div><span class="status-pill" id="offlineStatus">Wird vorbereitet</span></div>
+          </section>
+
+          <section class="settings-card wide">
+            <div class="install-layout">
+              <div>
+                <div class="settings-card-head"><div class="settings-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M12 3v12M7 10l5 5 5-5"/><path d="M5 21h14a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2"/></svg></div><div><h2>Als App installieren</h2><p id="installStateText">Ohne Safari-Leisten und mit eigenem App-Symbol</p></div></div>
+                <ol class="install-steps" id="iosInstallSteps"><li>VitaChronik in Safari öffnen.</li><li>Auf „Teilen“ und dann „Zum Home-Bildschirm“ tippen.</li><li>„Als Web-App öffnen“ aktiviert lassen und „Hinzufügen“ wählen.</li><li>Falls bereits Daten in Safari vorhanden sind: vorher sichern und anschließend in der installierten App importieren.</li></ol>
+                <div class="settings-actions"><button type="button" class="primary-btn" id="installAppButton">App installieren</button></div>
+              </div>
+              <div class="install-badge" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 3v18M3 12h18"/><rect x="6" y="6" width="12" height="12" rx="4" opacity=".28"/></svg></div>
+            </div>
+          </section>
+
+          <section class="settings-card wide">
+            <div class="settings-card-head"><div class="settings-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M4 7h16M4 12h16M4 17h10"/><path d="M18 15v6M15 18h6"/></svg></div><div><h2>Daten verwalten</h2><p>Sicherung erstellen, wiederherstellen oder lokale Daten löschen</p></div></div>
+            <div class="setting-copy"><span>Export und Import enthalten Krankheitsverlauf, Arzttermine, NEM-Pläne und Einnahmen. Es werden keine Daten an einen Server gesendet.</span></div>
+            <div class="settings-actions"><button type="button" class="secondary-btn" id="exportDataButton">Sicherung herunterladen</button><button type="button" class="secondary-btn" id="importDataButton">Sicherung importieren</button><button type="button" class="secondary-btn danger-btn" id="resetDataButton">Alle Daten löschen</button></div>
+            <input type="file" id="importDataInput" accept="application/json,.json" hidden />
+          </section>
+        </div>
+      </section>
+
       <p class="footnote">VitaChronik unterstützt deine persönliche Dokumentation und ersetzt keine medizinische Diagnose oder Beratung.</p>
     </main>
   </div>
 
   <nav class="mobile-nav" aria-label="Mobile Navigation">
     <button class="active" data-view="health"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M8 3v4M16 3v4M3 10h18"/></svg>Verlauf</button>
-    <button data-view="supplements"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8.5 3.5a4.95 4.95 0 0 1 7 7l-5 5a4.95 4.95 0 0 1-7-7z"/><path d="m6 13 5 5"/></svg>Supplemente</button>
+    <button data-view="supplements"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8.5 3.5a4.95 4.95 0 0 1 7 7l-5 5a4.95 4.95 0 0 1-7-7z"/><path d="m6 13 5 5"/></svg>NEM</button>
+    <button data-view="settings"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19 12a7 7 0 1 1-7-7M19 5v7h-7"/></svg>Einstellungen</button>
   </nav>
   <button class="mobile-add" id="mobileAdd" aria-label="Eintrag hinzufügen"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3"><path d="M12 5v14M5 12h14"/></svg></button>
 
@@ -493,16 +589,19 @@
         { id:'supp-2', name:'Magnesium', dose:1, unit:'Kapsel', time:'21:00', weekdays:[0,1,2,3,4,5,6], stock:7, threshold:10, refill:60 },
         { id:'supp-3', name:'Omega-3', dose:2, unit:'Kapsel', time:'12:30', weekdays:[0,1,2,3,4,5,6], stock:42, threshold:14, refill:90 }
       ],
-      intakeLog: {}
+      intakeLog: {},
+      settings: { theme:'system', profileName:'' }
     };
 
     function loadState() {
       try {
         const saved = JSON.parse(localStorage.getItem(STORAGE_KEY));
-        return saved ? { ...defaultState, ...saved } : structuredClone(defaultState);
+        return saved ? { ...defaultState, ...saved, settings:{ ...defaultState.settings, ...(saved.settings || {}) } } : structuredClone(defaultState);
       } catch { return structuredClone(defaultState); }
     }
     let state = loadState();
+    let deferredInstallPrompt = null;
+    let serviceWorkerReady = false;
     function persist() { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); }
 
     function currentMonth(which) { return fromKey(which === 'health' ? state.healthMonth : state.supplementMonth); }
@@ -529,20 +628,61 @@
       renderDoses();
       renderStock();
       renderSupplementSummary();
+      renderSettings();
     }
 
     function renderView() {
-      const health = state.activeView === 'health';
+      const viewIds = { health:'healthView', supplements:'supplementsView', settings:'settingsView' };
+      const copy = {
+        health: { eyebrow: state.settings.profileName ? `Hallo ${state.settings.profileName}` : 'Krankheitskalender', title:'Krankheitsverlauf', add:'Eintrag hinzufügen' },
+        supplements: { eyebrow:'Eigener NEM-Kalender', title:'Nahrungsergänzung', add:'NEM planen' },
+        settings: { eyebrow:'VitaChronik verwalten', title:'Einstellungen', add:'' }
+      };
+      const activeCopy = copy[state.activeView] || copy.health;
       document.querySelectorAll('.view').forEach(el => el.classList.remove('active'));
-      document.getElementById(health ? 'healthView' : 'supplementsView').classList.add('active');
+      document.getElementById(viewIds[state.activeView] || viewIds.health).classList.add('active');
       document.querySelectorAll('[data-view]').forEach(btn => {
         const active = btn.dataset.view === state.activeView;
         btn.classList.toggle('active', active);
         if (btn.closest('.sidebar')) active ? btn.setAttribute('aria-current','page') : btn.removeAttribute('aria-current');
       });
-      document.getElementById('viewEyebrow').textContent = health ? 'Gesundheitskalender' : 'Supplement-Planer';
-      document.getElementById('viewTitle').textContent = health ? 'Dein Verlauf auf einen Blick' : 'Routine und Vorrat im Griff';
-      document.querySelector('#mainAddButton span').textContent = health ? 'Eintrag hinzufügen' : 'Supplement planen';
+      document.getElementById('viewEyebrow').textContent = activeCopy.eyebrow;
+      document.getElementById('viewTitle').textContent = activeCopy.title;
+      document.querySelector('#mainAddButton span').textContent = activeCopy.add;
+      document.getElementById('mainAddButton').hidden = state.activeView === 'settings';
+      document.getElementById('mobileAdd').hidden = state.activeView === 'settings';
+    }
+
+    function resolveTheme() {
+      return state.settings.theme === 'system' ? (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : state.settings.theme;
+    }
+
+    function applyTheme() {
+      document.documentElement.dataset.theme = resolveTheme();
+      document.querySelector('meta[name="theme-color"]').content = resolveTheme() === 'dark' ? '#111521' : '#f3f5f9';
+    }
+
+    function isStandalone() {
+      return matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
+    }
+
+    function renderSettings() {
+      applyTheme();
+      const nameInput = document.getElementById('profileName');
+      if (document.activeElement !== nameInput) nameInput.value = state.settings.profileName || '';
+      document.querySelectorAll('[data-theme-choice]').forEach(button => button.classList.toggle('active', button.dataset.themeChoice === state.settings.theme));
+      const online = navigator.onLine;
+      const connection = document.getElementById('connectionStatus');
+      connection.textContent = online ? 'Online' : 'Offline';
+      connection.classList.toggle('offline', !online);
+      document.getElementById('connectionText').textContent = online ? 'Synchronisationsfrei verbunden' : 'VitaChronik läuft lokal weiter';
+      const offline = document.getElementById('offlineStatus');
+      offline.textContent = serviceWorkerReady ? 'Offline bereit' : ('serviceWorker' in navigator ? 'Wird vorbereitet' : 'Nach Installation');
+      offline.classList.toggle('offline', !serviceWorkerReady);
+      const installed = isStandalone();
+      document.getElementById('installStateText').textContent = installed ? 'VitaChronik läuft bereits ohne Browserleisten.' : 'Über den Home-Bildschirm ohne Safari-Leisten öffnen.';
+      document.getElementById('installAppButton').hidden = installed;
+      document.getElementById('installAppButton').textContent = deferredInstallPrompt ? 'Jetzt installieren' : 'Installationsanleitung';
     }
 
     function renderHealthCalendar() {
@@ -643,7 +783,7 @@
       if (state.activeView === 'health') {
         document.getElementById('entryDate').value = state.selectedDate;
         updateHealthFields(); document.getElementById('healthDialog').showModal();
-      } else document.getElementById('supplementDialog').showModal();
+      } else if (state.activeView === 'supplements') document.getElementById('supplementDialog').showModal();
     }
     function closeDialogs() { document.querySelectorAll('dialog[open]').forEach(d => d.close()); }
     function showToast(message) { const t=document.getElementById('toast'); t.textContent=message; t.classList.add('show'); clearTimeout(showToast.timer); showToast.timer=setTimeout(()=>t.classList.remove('show'),2200); }
@@ -656,9 +796,33 @@
       document.getElementById('entryTitle').placeholder = placeholders[type];
     }
 
+    function exportData() {
+      const payload = { app:'VitaChronik', version:2, exportedAt:new Date().toISOString(), state };
+      const blob = new Blob([JSON.stringify(payload, null, 2)], { type:'application/json' });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = `vitachronik-sicherung-${dateKey(today)}.json`;
+      link.click();
+      setTimeout(() => URL.revokeObjectURL(url), 1000);
+      showToast('Sicherung wurde erstellt');
+    }
+
+    async function importData(file) {
+      try {
+        const payload = JSON.parse(await file.text());
+        const imported = payload.state || payload;
+        if (!Array.isArray(imported.entries) || !Array.isArray(imported.supplements) || typeof imported.intakeLog !== 'object') throw new Error('Ungültige Sicherung');
+        state = { ...structuredClone(defaultState), ...imported, settings:{ ...defaultState.settings, ...(imported.settings || {}) }, activeView:'settings' };
+        persist(); render(); showToast('Sicherung wurde importiert');
+      } catch { showToast('Diese Sicherungsdatei ist nicht gültig'); }
+    }
+
     document.addEventListener('click', event => {
       const viewButton = event.target.closest('[data-view]');
       if (viewButton) setActiveView(viewButton.dataset.view);
+      const themeChoice = event.target.closest('[data-theme-choice]');
+      if (themeChoice) { state.settings.theme=themeChoice.dataset.themeChoice; persist(); render(); }
       const nav = event.target.closest('[data-move]');
       if (nav) moveMonth(nav.dataset.calendar, Number(nav.dataset.move));
       const healthDay = event.target.closest('[data-health-date]');
@@ -677,6 +841,27 @@
       }
       const restock = event.target.closest('[data-restock]');
       if (restock) { const supp=state.supplements.find(s=>s.id===restock.dataset.restock); if(supp){supp.stock+=Number(supp.refill)||0; persist(); render(); showToast(`${supp.name}: Vorrat aktualisiert`);} }
+    });
+
+    document.getElementById('profileName').addEventListener('change', event => {
+      state.settings.profileName = event.target.value.trim(); persist(); render();
+    });
+    document.getElementById('exportDataButton').addEventListener('click', exportData);
+    document.getElementById('importDataButton').addEventListener('click', () => document.getElementById('importDataInput').click());
+    document.getElementById('importDataInput').addEventListener('change', event => {
+      const [file] = event.target.files; if (file) importData(file); event.target.value='';
+    });
+    document.getElementById('resetDataButton').addEventListener('click', () => {
+      if (!confirm('Alle lokalen VitaChronik-Daten wirklich löschen? Diese Aktion kann nicht rückgängig gemacht werden.')) return;
+      state=structuredClone(defaultState); state.activeView='settings'; persist(); render(); showToast('Alle lokalen Daten wurden gelöscht');
+    });
+    document.getElementById('installAppButton').addEventListener('click', async () => {
+      if (deferredInstallPrompt) {
+        deferredInstallPrompt.prompt(); await deferredInstallPrompt.userChoice; deferredInstallPrompt=null; renderSettings();
+      } else {
+        document.getElementById('iosInstallSteps').scrollIntoView({ behavior:'smooth', block:'center' });
+        showToast('In Safari: Teilen → Zum Home-Bildschirm');
+      }
     });
 
     document.getElementById('entryType').addEventListener('change', updateHealthFields);
@@ -703,8 +888,27 @@
       persist(); event.target.reset(); document.querySelectorAll('[name="weekday"]').forEach(el=>el.checked=true); document.getElementById('suppDose').value=1; document.getElementById('suppTime').value='08:00'; document.getElementById('suppStock').value=30; document.getElementById('suppThreshold').value=10; document.getElementById('suppRefill').value=60; closeDialogs(); render(); showToast('Supplement-Plan gespeichert');
     });
 
+    window.addEventListener('beforeinstallprompt', event => {
+      event.preventDefault(); deferredInstallPrompt=event; renderSettings();
+    });
+    window.addEventListener('appinstalled', () => { deferredInstallPrompt=null; renderSettings(); showToast('VitaChronik wurde installiert'); });
+    window.addEventListener('online', renderSettings);
+    window.addEventListener('offline', renderSettings);
+    matchMedia('(prefers-color-scheme: dark)').addEventListener?.('change', () => { if(state.settings.theme==='system') renderSettings(); });
+
+    if ('serviceWorker' in navigator && location.protocol !== 'file:') {
+      window.addEventListener('load', async () => {
+        try {
+          await navigator.serviceWorker.register('./sw.js');
+          await navigator.serviceWorker.ready;
+          serviceWorkerReady=true; renderSettings();
+        } catch { serviceWorkerReady=false; renderSettings(); }
+      });
+    }
+
     document.addEventListener('keydown', e => { if(e.key==='Escape') closeDialogs(); });
     document.getElementById('todayLabel').textContent = longDateFormat.format(today);
+    applyTheme();
     render();
   </script>
 </body>

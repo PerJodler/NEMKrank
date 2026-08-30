@@ -6,12 +6,15 @@ Die Gesundheitsdaten werden ausschließlich im `localStorage` des verwendeten Br
 
 ## Funktionen
 
-- Gesundheitskalender für Symptome, Krankheiten, Arztbesuche und Termine
+- Eigener Krankheitskalender für Symptome, Krankheiten, Arztbesuche und Termine
 - Schweregrad, Uhrzeit, Arzt/Praxis und persönliche Notizen
-- Separater Supplement-Kalender mit Einnahmetagen und Uhrzeiten
+- Separater NEM-Kalender mit Einnahmetagen und Uhrzeiten
 - Abhakbare Einnahmen und automatische Bestandsreduzierung
 - Nachkaufwarnungen mit frei wählbarem Grenzwert
 - Responsive Bedienung auf Desktop und Smartphone
+- Installierbare Progressive Web App ohne Safari-Leisten im Home-Screen-Modus
+- Offline-Nutzung nach dem ersten erfolgreichen Laden
+- Einstellungsseite mit Hell-/Dunkelmodus, Installation und Datensicherung
 - Sicherheitsheader für das Cloudflare-Deployment
 
 ## Voraussetzungen
@@ -36,6 +39,17 @@ npm run dev
 ```
 
 Beim ersten Aufruf lädt `npx` Wrangler 4 und kann eine Cloudflare-Anmeldung anfordern.
+
+## Auf iPhone oder iPad als App installieren
+
+1. Die veröffentlichte VitaChronik-Adresse in Safari öffnen.
+2. Auf **Teilen** tippen.
+3. **Zum Home-Bildschirm** wählen.
+4. **Als Web-App öffnen** aktiviert lassen und auf **Hinzufügen** tippen.
+
+Beim Start über das neue App-Symbol läuft VitaChronik im Standalone-Modus ohne Safari-Adress- und Werkzeugleisten. Nach dem ersten vollständigen Online-Start werden alle benötigten App-Dateien lokal zwischengespeichert und VitaChronik kann offline geöffnet werden.
+
+Hinweis: Eine installierte Home-Screen-Web-App kann auf Apple-Geräten einen eigenen lokalen Speicherbereich verwenden. Falls bereits Daten in Safari erfasst wurden, vorher über **Einstellungen → Sicherung herunterladen** exportieren und danach in der installierten App importieren.
 
 ## Zu GitHub hochladen
 
@@ -102,6 +116,9 @@ vitachronik/
 ├── .github/workflows/deploy-cloudflare.yml
 ├── public/
 │   ├── _headers
+│   ├── icons/
+│   ├── manifest.webmanifest
+│   ├── sw.js
 │   └── robots.txt
 ├── scripts/
 │   ├── build.mjs

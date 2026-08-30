@@ -1,9 +1,9 @@
 {
   "name": "vitachronik",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "private": true,
   "type": "module",
-  "description": "Lokale Gesundheitschronik für Symptome, Arzttermine und Supplement-Planung.",
+  "description": "Installierbare Offline-Gesundheitschronik für Krankheitsverlauf, Arzttermine und NEM-Planung.",
   "scripts": {
     "check": "node scripts/check.mjs",
     "build": "node scripts/build.mjs",
