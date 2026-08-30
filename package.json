@@ -1,0 +1,16 @@
+{
+  "name": "vitachronik",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Lokale Gesundheitschronik für Symptome, Arzttermine und Supplement-Planung.",
+  "scripts": {
+    "check": "node scripts/check.mjs",
+    "build": "node scripts/build.mjs",
+    "dev": "npm run build && npx --yes wrangler@4 dev",
+    "deploy": "npm run check && npm run build && npx --yes wrangler@4 deploy"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

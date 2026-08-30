@@ -1,0 +1,711 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#153f3a" />
+  <meta name="description" content="VitaChronik – persönlicher Kalender für Symptome, Krankheiten, Arzttermine und Nahrungsergänzungsmittel." />
+  <title>VitaChronik</title>
+  <style>
+    :root {
+      --ink: #173532;
+      --muted: #6a7976;
+      --soft: #f3f5ef;
+      --paper: #fbfcf8;
+      --card: #ffffff;
+      --line: #dfe6df;
+      --forest: #153f3a;
+      --forest-2: #245d54;
+      --mint: #cce7dc;
+      --mint-2: #e8f4ee;
+      --coral: #e97862;
+      --coral-soft: #fdeae5;
+      --amber: #e6a83e;
+      --amber-soft: #fff2d8;
+      --lilac: #7b71a8;
+      --lilac-soft: #eeeafa;
+      --shadow: 0 12px 36px rgba(20, 63, 58, .08);
+      --radius-lg: 24px;
+      --radius-md: 16px;
+      --radius-sm: 11px;
+    }
+
+    * { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      min-width: 320px;
+      color: var(--ink);
+      background: var(--soft);
+      font: 500 15px/1.45 Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    button, input, textarea, select { font: inherit; }
+    button { color: inherit; }
+    button:focus-visible, input:focus-visible, textarea:focus-visible, select:focus-visible {
+      outline: 3px solid rgba(233, 120, 98, .28);
+      outline-offset: 2px;
+    }
+
+    .app-shell { min-height: 100vh; display: grid; grid-template-columns: 250px minmax(0, 1fr); }
+
+    .sidebar {
+      min-height: 100vh;
+      position: sticky;
+      top: 0;
+      align-self: start;
+      display: flex;
+      flex-direction: column;
+      padding: 28px 18px 22px;
+      background: var(--forest);
+      color: #f4faf7;
+    }
+
+    .brand { display: flex; align-items: center; gap: 11px; padding: 0 10px 28px; }
+    .brand-mark {
+      width: 38px; height: 38px; display: grid; place-items: center;
+      border-radius: 13px; background: var(--mint); color: var(--forest);
+    }
+    .brand strong { display: block; font-size: 19px; letter-spacing: -.03em; }
+    .brand small { color: #a9c6bf; font-size: 11px; letter-spacing: .04em; text-transform: uppercase; }
+
+    .nav-label { margin: 2px 12px 9px; color: #8eb1a9; font-size: 10px; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; }
+    .nav-btn {
+      width: 100%; display: flex; align-items: center; gap: 12px;
+      border: 0; padding: 12px 13px; margin: 3px 0; border-radius: 13px;
+      background: transparent; color: #c7ddd7; cursor: pointer; text-align: left;
+    }
+    .nav-btn:hover { background: rgba(255,255,255,.07); color: #fff; }
+    .nav-btn.active { background: #f4faf7; color: var(--forest); box-shadow: 0 8px 22px rgba(0,0,0,.14); }
+    .nav-btn svg { width: 19px; height: 19px; flex: 0 0 auto; }
+    .nav-spacer { flex: 1; }
+    .privacy-card {
+      padding: 14px; border: 1px solid rgba(204,231,220,.18); border-radius: 16px;
+      background: rgba(255,255,255,.05); color: #bdd5cf; font-size: 12px;
+    }
+    .privacy-card strong { color: #fff; display: flex; align-items: center; gap: 8px; margin-bottom: 5px; }
+
+    main { min-width: 0; padding: 24px 28px 44px; }
+    .topbar { display: flex; justify-content: space-between; align-items: center; gap: 18px; max-width: 1440px; margin: 0 auto 20px; }
+    .eyebrow { color: var(--coral); font-size: 11px; font-weight: 850; letter-spacing: .12em; text-transform: uppercase; }
+    h1 { margin: 2px 0 0; font-size: clamp(25px, 3vw, 36px); line-height: 1.1; letter-spacing: -.045em; }
+    .top-actions { display: flex; align-items: center; gap: 9px; }
+    .date-pill { padding: 9px 12px; border: 1px solid var(--line); border-radius: 999px; background: rgba(255,255,255,.64); color: var(--muted); font-size: 12px; }
+
+    .primary-btn, .secondary-btn, .icon-btn, .text-btn {
+      border: 0; cursor: pointer; transition: transform .16s ease, background .16s ease, border-color .16s ease;
+    }
+    .primary-btn {
+      display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+      min-height: 42px; padding: 0 16px; border-radius: 12px; color: white; background: var(--coral); font-weight: 760;
+      box-shadow: 0 7px 18px rgba(233,120,98,.2);
+    }
+    .primary-btn:hover { background: #d96450; transform: translateY(-1px); }
+    .secondary-btn {
+      display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+      min-height: 39px; padding: 0 13px; border: 1px solid var(--line); border-radius: 11px; background: #fff; font-weight: 720;
+    }
+    .secondary-btn:hover { border-color: #b9c9c3; background: var(--mint-2); }
+    .text-btn { background: transparent; padding: 5px; color: var(--forest-2); font-weight: 750; }
+    .icon-btn { width: 38px; height: 38px; display: grid; place-items: center; border: 1px solid var(--line); border-radius: 11px; background: white; }
+    .icon-btn:hover { background: var(--mint-2); }
+    .icon-btn svg, .primary-btn svg, .secondary-btn svg { width: 17px; height: 17px; }
+
+    .view { display: none; max-width: 1440px; margin: 0 auto; }
+    .view.active { display: block; animation: enter .26s ease both; }
+    @keyframes enter { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+
+    .summary-strip { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 14px; }
+    .summary-card {
+      min-width: 0; display: flex; align-items: center; gap: 13px; padding: 15px 16px;
+      border: 1px solid var(--line); border-radius: var(--radius-md); background: rgba(255,255,255,.74);
+    }
+    .summary-icon { width: 39px; height: 39px; flex: 0 0 auto; display: grid; place-items: center; border-radius: 12px; }
+    .summary-icon svg { width: 19px; height: 19px; }
+    .summary-card:nth-child(1) .summary-icon { background: var(--coral-soft); color: var(--coral); }
+    .summary-card:nth-child(2) .summary-icon { background: var(--lilac-soft); color: var(--lilac); }
+    .summary-card:nth-child(3) .summary-icon { background: var(--mint-2); color: var(--forest-2); }
+    .summary-card strong { display: block; font-size: 18px; line-height: 1.2; letter-spacing: -.025em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .summary-card span { color: var(--muted); font-size: 12px; }
+
+    .workspace { display: grid; grid-template-columns: minmax(0, 1.6fr) minmax(285px, .62fr); gap: 14px; align-items: start; }
+    .panel { border: 1px solid var(--line); border-radius: var(--radius-lg); background: var(--card); box-shadow: var(--shadow); }
+    .calendar-panel { overflow: hidden; }
+    .panel-head { min-height: 68px; display: flex; align-items: center; justify-content: space-between; gap: 14px; padding: 14px 18px; border-bottom: 1px solid var(--line); }
+    .month-control { display: flex; align-items: center; gap: 8px; }
+    .month-control h2 { min-width: 170px; margin: 0; font-size: 18px; letter-spacing: -.025em; }
+    .month-nav { display: flex; gap: 5px; }
+    .month-nav button { width: 32px; height: 32px; }
+    .legend { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; color: var(--muted); font-size: 11px; }
+    .legend span { display: inline-flex; align-items: center; gap: 5px; }
+    .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--coral); }
+    .dot.illness { background: var(--amber); }
+    .dot.doctor { background: var(--lilac); }
+    .dot.future { background: var(--forest-2); }
+
+    .weekdays, .calendar-grid { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); }
+    .weekdays { padding: 0 10px; background: #fafbf8; border-bottom: 1px solid var(--line); }
+    .weekdays div { padding: 10px 6px; text-align: center; color: #87938f; font-size: 10px; font-weight: 820; letter-spacing: .08em; text-transform: uppercase; }
+    .calendar-grid { padding: 10px; }
+    .day-cell {
+      position: relative; min-height: 102px; padding: 9px; border: 1px solid transparent; border-radius: 14px;
+      background: transparent; overflow: hidden; cursor: pointer; text-align: left;
+    }
+    .day-cell:hover { background: #f7f9f5; }
+    .day-cell.outside { color: #b6bfbc; }
+    .day-cell.today { background: var(--mint-2); }
+    .day-cell.selected { border-color: var(--forest-2); box-shadow: inset 0 0 0 1px var(--forest-2); }
+    .day-number { width: 25px; height: 25px; display: grid; place-items: center; border-radius: 8px; font-size: 12px; font-weight: 800; }
+    .today .day-number { background: var(--forest); color: white; }
+    .event-chip {
+      display: flex; align-items: center; gap: 5px; min-width: 0; margin-top: 5px; padding: 5px 6px; border-radius: 7px;
+      background: var(--coral-soft); color: #a84837; font-size: 10px; font-weight: 740;
+    }
+    .event-chip::before { content: ""; width: 5px; height: 5px; flex: 0 0 auto; border-radius: 50%; background: currentColor; }
+    .event-chip span { overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+    .event-chip.illness { background: var(--amber-soft); color: #956719; }
+    .event-chip.doctor { background: var(--lilac-soft); color: #64568f; }
+    .event-chip.appointment { background: var(--mint-2); color: var(--forest-2); }
+    .more-chip { margin-top: 5px; color: var(--muted); font-size: 10px; }
+
+    .detail-panel { position: sticky; top: 24px; overflow: hidden; }
+    .detail-head { padding: 19px 19px 14px; border-bottom: 1px solid var(--line); }
+    .detail-head .overline { color: var(--coral); font-size: 10px; font-weight: 840; letter-spacing: .12em; text-transform: uppercase; }
+    .detail-head h3 { margin: 3px 0 0; font-size: 21px; letter-spacing: -.035em; }
+    .detail-body { padding: 12px; }
+    .empty-state { padding: 26px 16px; text-align: center; color: var(--muted); }
+    .empty-state .empty-icon { width: 46px; height: 46px; display: grid; place-items: center; margin: 0 auto 11px; border-radius: 15px; background: var(--mint-2); color: var(--forest-2); }
+    .empty-state strong { display: block; color: var(--ink); margin-bottom: 4px; }
+    .entry-card { position: relative; padding: 13px 38px 13px 13px; margin-bottom: 8px; border: 1px solid var(--line); border-radius: 13px; background: #fff; }
+    .entry-card:last-child { margin-bottom: 0; }
+    .entry-top { display: flex; align-items: center; gap: 7px; margin-bottom: 5px; }
+    .type-badge { padding: 4px 7px; border-radius: 99px; background: var(--coral-soft); color: #a84837; font-size: 9px; font-weight: 840; letter-spacing: .05em; text-transform: uppercase; }
+    .type-badge.illness { background: var(--amber-soft); color: #956719; }
+    .type-badge.doctor { background: var(--lilac-soft); color: #64568f; }
+    .type-badge.appointment { background: var(--mint-2); color: var(--forest-2); }
+    .entry-time { color: var(--muted); font-size: 11px; }
+    .entry-card h4 { margin: 0; font-size: 14px; }
+    .entry-card p { margin: 4px 0 0; color: var(--muted); font-size: 12px; }
+    .severity { display: flex; gap: 3px; margin-top: 8px; }
+    .severity i { width: 18px; height: 4px; border-radius: 4px; background: #e5eae6; }
+    .severity i.on { background: var(--coral); }
+    .delete-btn { position: absolute; top: 10px; right: 9px; border: 0; background: transparent; color: #9ba6a3; cursor: pointer; padding: 5px; border-radius: 7px; }
+    .delete-btn:hover { color: #ad4938; background: var(--coral-soft); }
+
+    .supplement-workspace { grid-template-columns: minmax(0, 1.35fr) minmax(320px, .68fr); }
+    .supp-day { min-height: 95px; }
+    .dose-markers { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 7px; }
+    .dose-dot { width: 18px; height: 18px; display: grid; place-items: center; border-radius: 6px; background: #e9efea; color: #788682; font-size: 10px; font-weight: 900; }
+    .dose-dot.taken { background: var(--forest); color: white; }
+    .dose-count { margin-top: 5px; color: var(--muted); font-size: 9px; }
+
+    .side-stack { display: grid; gap: 12px; position: sticky; top: 24px; }
+    .stack-panel { overflow: hidden; }
+    .stack-title { padding: 16px 17px 10px; display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+    .stack-title h3 { margin: 0; font-size: 16px; letter-spacing: -.025em; }
+    .stack-title span { color: var(--muted); font-size: 11px; }
+    .dose-list, .stock-list { padding: 0 10px 10px; }
+    .dose-row { display: grid; grid-template-columns: 32px minmax(0,1fr) auto; align-items: center; gap: 9px; padding: 10px 7px; border-top: 1px solid #edf0ec; }
+    .dose-check { width: 29px; height: 29px; display: grid; place-items: center; border: 1.5px solid #cbd6d0; border-radius: 10px; background: #fff; color: transparent; cursor: pointer; }
+    .dose-check.taken { background: var(--forest); border-color: var(--forest); color: #fff; }
+    .dose-copy strong { display: block; font-size: 13px; }
+    .dose-copy span { color: var(--muted); font-size: 10px; }
+    .dose-time { color: var(--forest-2); font-size: 11px; font-weight: 800; }
+    .stock-row { padding: 11px 8px; border-top: 1px solid #edf0ec; }
+    .stock-top { display: flex; justify-content: space-between; gap: 8px; align-items: center; }
+    .stock-top strong { font-size: 12px; }
+    .stock-top span { color: var(--muted); font-size: 10px; }
+    .stock-top .critical { color: #b34c3a; font-weight: 800; }
+    .progress-track { height: 6px; margin-top: 7px; border-radius: 99px; background: #e9eeea; overflow: hidden; }
+    .progress-fill { height: 100%; border-radius: inherit; background: var(--forest-2); }
+    .progress-fill.low { background: var(--coral); }
+    .restock-btn { margin-top: 7px; border: 0; background: transparent; color: var(--coral); font-size: 10px; font-weight: 820; cursor: pointer; padding: 0; }
+    .all-good { padding: 20px 12px 24px; text-align: center; color: var(--muted); font-size: 12px; }
+
+    dialog {
+      width: min(520px, calc(100vw - 28px)); max-height: calc(100vh - 36px); padding: 0; border: 0; border-radius: 24px;
+      background: #fff; color: var(--ink); box-shadow: 0 28px 80px rgba(14,42,39,.26); overflow: auto;
+    }
+    dialog::backdrop { background: rgba(13,37,34,.58); backdrop-filter: blur(3px); }
+    .dialog-head { position: sticky; top: 0; z-index: 2; display: flex; justify-content: space-between; align-items: center; padding: 19px 21px; border-bottom: 1px solid var(--line); background: rgba(255,255,255,.96); }
+    .dialog-head h2 { margin: 0; font-size: 20px; letter-spacing: -.035em; }
+    .dialog-body { padding: 19px 21px 6px; }
+    .dialog-actions { position: sticky; bottom: 0; display: flex; justify-content: flex-end; gap: 8px; padding: 14px 21px 19px; border-top: 1px solid var(--line); background: rgba(255,255,255,.97); }
+    .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 13px; }
+    .field { display: grid; gap: 6px; margin-bottom: 13px; }
+    .field.full { grid-column: 1 / -1; }
+    label { font-size: 11px; font-weight: 800; color: #566763; }
+    input, textarea, select {
+      width: 100%; min-height: 42px; padding: 10px 11px; border: 1px solid #cfd8d3; border-radius: 11px; background: #fff; color: var(--ink);
+    }
+    textarea { min-height: 82px; resize: vertical; }
+    input[type="range"] { padding: 0; border: 0; accent-color: var(--coral); }
+    .range-line { display: flex; justify-content: space-between; color: var(--muted); font-size: 10px; }
+    .weekday-picker { display: grid; grid-template-columns: repeat(7, 1fr); gap: 5px; }
+    .weekday-picker label { position: relative; }
+    .weekday-picker input { position: absolute; opacity: 0; pointer-events: none; }
+    .weekday-picker span { height: 34px; display: grid; place-items: center; border: 1px solid var(--line); border-radius: 9px; cursor: pointer; }
+    .weekday-picker input:checked + span { border-color: var(--forest); background: var(--forest); color: #fff; }
+
+    .toast { position: fixed; z-index: 20; left: 50%; bottom: 26px; transform: translate(-50%, 18px); padding: 11px 15px; border-radius: 12px; background: #153f3a; color: white; box-shadow: var(--shadow); opacity: 0; pointer-events: none; transition: .22s ease; font-size: 12px; }
+    .toast.show { opacity: 1; transform: translate(-50%, 0); }
+    .mobile-nav { display: none; }
+    .mobile-add { display: none; }
+    .footnote { max-width: 1440px; margin: 16px auto 0; color: #84908d; font-size: 10px; text-align: center; }
+
+    @media (max-width: 1060px) {
+      .app-shell { grid-template-columns: 84px minmax(0,1fr); }
+      .sidebar { padding-inline: 12px; align-items: center; }
+      .brand { padding-inline: 0; }
+      .brand-copy, .nav-label, .nav-btn span, .privacy-card { display: none; }
+      .nav-btn { width: 48px; height: 48px; justify-content: center; padding: 0; }
+      .workspace, .supplement-workspace { grid-template-columns: 1fr; }
+      .detail-panel, .side-stack { position: static; }
+      .side-stack { grid-template-columns: 1fr 1fr; }
+    }
+
+    @media (max-width: 720px) {
+      .app-shell { display: block; }
+      .sidebar { display: none; }
+      main { padding: 17px 12px 92px; }
+      .topbar { align-items: flex-start; margin-bottom: 15px; }
+      .date-pill { display: none; }
+      .top-actions .primary-btn { display: none; }
+      .summary-strip { grid-template-columns: 1fr 1fr; }
+      .summary-card:nth-child(3) { grid-column: 1 / -1; }
+      .summary-card { padding: 12px; }
+      .legend { display: none; }
+      .panel-head { min-height: 62px; padding: 12px; }
+      .month-control h2 { min-width: 144px; font-size: 16px; }
+      .calendar-grid { padding: 5px; }
+      .weekdays { padding: 0 5px; }
+      .day-cell, .supp-day { min-height: 70px; padding: 5px; border-radius: 10px; }
+      .event-chip { width: 7px; height: 7px; display: inline-block; padding: 0; margin: 6px 2px 0 0; border-radius: 50%; }
+      .event-chip::before, .event-chip span, .more-chip, .dose-count { display: none; }
+      .side-stack { grid-template-columns: 1fr; }
+      .mobile-nav {
+        position: fixed; z-index: 10; left: 10px; right: 10px; bottom: 10px; display: grid; grid-template-columns: 1fr 1fr;
+        padding: 6px; border: 1px solid rgba(255,255,255,.2); border-radius: 17px; background: rgba(21,63,58,.96); box-shadow: 0 12px 34px rgba(15,45,41,.25); backdrop-filter: blur(10px);
+      }
+      .mobile-nav button { min-height: 48px; display: flex; align-items: center; justify-content: center; gap: 7px; border: 0; border-radius: 12px; background: transparent; color: #bcd5ce; font-size: 11px; font-weight: 800; }
+      .mobile-nav button.active { background: white; color: var(--forest); }
+      .mobile-add { position: fixed; z-index: 11; right: 18px; bottom: 78px; width: 49px; height: 49px; display: grid; place-items: center; border: 0; border-radius: 16px; background: var(--coral); color: white; box-shadow: 0 10px 24px rgba(233,120,98,.35); }
+      .form-grid { grid-template-columns: 1fr; }
+      .field.full { grid-column: auto; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { scroll-behavior: auto !important; animation: none !important; transition: none !important; }
+    }
+  </style>
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar" aria-label="Hauptnavigation">
+      <div class="brand">
+        <div class="brand-mark" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v18M3 12h18"/><path d="M7 7h10v10H7z" opacity=".25"/></svg>
+        </div>
+        <div class="brand-copy"><strong>VitaChronik</strong><small>Meine Gesundheit</small></div>
+      </div>
+      <div class="nav-label">Kalender</div>
+      <button class="nav-btn active" data-view="health" aria-current="page">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M8 3v4M16 3v4M3 10h18"/><path d="M8 15h.01M12 15h.01M16 15h.01" stroke-width="3"/></svg>
+        <span>Verlauf & Ärzte</span>
+      </button>
+      <button class="nav-btn" data-view="supplements">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M8.5 3.5a4.95 4.95 0 0 1 7 7l-5 5a4.95 4.95 0 0 1-7-7z"/><path d="m6 13 5 5"/><path d="m10 7 7 7"/></svg>
+        <span>Supplemente</span>
+      </button>
+      <div class="nav-spacer"></div>
+      <div class="privacy-card">
+        <strong>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="10" width="14" height="10" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>
+          Privat gespeichert
+        </strong>
+        Deine Einträge bleiben lokal in diesem Browser.
+      </div>
+    </aside>
+
+    <main>
+      <header class="topbar">
+        <div>
+          <div class="eyebrow" id="viewEyebrow">Gesundheitskalender</div>
+          <h1 id="viewTitle">Dein Verlauf auf einen Blick</h1>
+        </div>
+        <div class="top-actions">
+          <div class="date-pill" id="todayLabel"></div>
+          <button class="primary-btn" id="mainAddButton">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 5v14M5 12h14"/></svg>
+            <span>Eintrag hinzufügen</span>
+          </button>
+        </div>
+      </header>
+
+      <section class="view active" id="healthView" aria-labelledby="viewTitle">
+        <div class="summary-strip" id="healthSummary"></div>
+        <div class="workspace">
+          <section class="panel calendar-panel" aria-label="Gesundheitskalender">
+            <div class="panel-head">
+              <div class="month-control">
+                <h2 id="healthMonthLabel"></h2>
+                <div class="month-nav">
+                  <button class="icon-btn" data-calendar="health" data-move="-1" aria-label="Vorheriger Monat"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m15 18-6-6 6-6"/></svg></button>
+                  <button class="icon-btn" data-calendar="health" data-move="1" aria-label="Nächster Monat"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 18 6-6-6-6"/></svg></button>
+                </div>
+              </div>
+              <div class="legend" aria-label="Legende">
+                <span><i class="dot"></i>Symptom</span><span><i class="dot illness"></i>Krankheit</span><span><i class="dot doctor"></i>Arztbesuch</span><span><i class="dot future"></i>Termin</span>
+              </div>
+            </div>
+            <div class="weekdays" aria-hidden="true"><div>Mo</div><div>Di</div><div>Mi</div><div>Do</div><div>Fr</div><div>Sa</div><div>So</div></div>
+            <div class="calendar-grid" id="healthCalendar"></div>
+          </section>
+
+          <aside class="panel detail-panel" aria-label="Einträge des ausgewählten Tages">
+            <div class="detail-head"><div class="overline">Tageschronik</div><h3 id="selectedDateLabel"></h3></div>
+            <div class="detail-body" id="dayEntries"></div>
+          </aside>
+        </div>
+      </section>
+
+      <section class="view" id="supplementsView" aria-labelledby="viewTitle">
+        <div class="summary-strip" id="supplementSummary"></div>
+        <div class="workspace supplement-workspace">
+          <section class="panel calendar-panel" aria-label="Supplement-Kalender">
+            <div class="panel-head">
+              <div class="month-control">
+                <h2 id="supplementMonthLabel"></h2>
+                <div class="month-nav">
+                  <button class="icon-btn" data-calendar="supplements" data-move="-1" aria-label="Vorheriger Monat"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m15 18-6-6 6-6"/></svg></button>
+                  <button class="icon-btn" data-calendar="supplements" data-move="1" aria-label="Nächster Monat"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 18 6-6-6-6"/></svg></button>
+                </div>
+              </div>
+              <div class="legend"><span><i class="dot future"></i>Eingenommen</span><span><i class="dot" style="background:#cfd8d3"></i>Geplant</span></div>
+            </div>
+            <div class="weekdays" aria-hidden="true"><div>Mo</div><div>Di</div><div>Mi</div><div>Do</div><div>Fr</div><div>Sa</div><div>So</div></div>
+            <div class="calendar-grid" id="supplementCalendar"></div>
+          </section>
+
+          <aside class="side-stack" aria-label="Heutige Einnahmen und Vorrat">
+            <section class="panel stack-panel">
+              <div class="stack-title"><div><h3>Heute einnehmen</h3><span id="todayDoseCount"></span></div><button class="text-btn" id="addSupplementMini">+ Neu</button></div>
+              <div class="dose-list" id="todayDoses"></div>
+            </section>
+            <section class="panel stack-panel">
+              <div class="stack-title"><div><h3>Nachkaufen</h3><span>automatisch nach Vorrat</span></div></div>
+              <div class="stock-list" id="stockList"></div>
+            </section>
+          </aside>
+        </div>
+      </section>
+
+      <p class="footnote">VitaChronik unterstützt deine persönliche Dokumentation und ersetzt keine medizinische Diagnose oder Beratung.</p>
+    </main>
+  </div>
+
+  <nav class="mobile-nav" aria-label="Mobile Navigation">
+    <button class="active" data-view="health"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M8 3v4M16 3v4M3 10h18"/></svg>Verlauf</button>
+    <button data-view="supplements"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8.5 3.5a4.95 4.95 0 0 1 7 7l-5 5a4.95 4.95 0 0 1-7-7z"/><path d="m6 13 5 5"/></svg>Supplemente</button>
+  </nav>
+  <button class="mobile-add" id="mobileAdd" aria-label="Eintrag hinzufügen"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3"><path d="M12 5v14M5 12h14"/></svg></button>
+
+  <dialog id="healthDialog" aria-labelledby="healthDialogTitle">
+    <form id="healthForm">
+      <div class="dialog-head"><h2 id="healthDialogTitle">Gesundheit eintragen</h2><button type="button" class="icon-btn close-dialog" aria-label="Schließen"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 6l12 12M18 6 6 18"/></svg></button></div>
+      <div class="dialog-body">
+        <div class="form-grid">
+          <div class="field"><label for="entryType">Art des Eintrags</label><select id="entryType" required><option value="symptom">Symptom</option><option value="illness">Krankheit</option><option value="doctor">Arztbesuch</option><option value="appointment">Arzttermin</option></select></div>
+          <div class="field"><label for="entryDate">Datum</label><input id="entryDate" type="date" required /></div>
+          <div class="field full"><label for="entryTitle">Bezeichnung</label><input id="entryTitle" placeholder="z. B. Kopfschmerzen" required maxlength="80" /></div>
+          <div class="field"><label for="entryTime">Uhrzeit</label><input id="entryTime" type="time" value="09:00" /></div>
+          <div class="field doctor-field" hidden><label for="entryDoctor">Arzt / Praxis</label><input id="entryDoctor" placeholder="z. B. Dr. Schneider" maxlength="80" /></div>
+          <div class="field full severity-field"><label for="entrySeverity">Stärke: <span id="severityValue">5</span>/10</label><input id="entrySeverity" type="range" min="1" max="10" value="5" /><div class="range-line"><span>leicht</span><span>stark</span></div></div>
+          <div class="field full"><label for="entryNotes">Notiz</label><textarea id="entryNotes" placeholder="Auslöser, Verlauf oder Fragen für den Termin …" maxlength="300"></textarea></div>
+        </div>
+      </div>
+      <div class="dialog-actions"><button type="button" class="secondary-btn close-dialog">Abbrechen</button><button type="submit" class="primary-btn">Eintrag speichern</button></div>
+    </form>
+  </dialog>
+
+  <dialog id="supplementDialog" aria-labelledby="supplementDialogTitle">
+    <form id="supplementForm">
+      <div class="dialog-head"><h2 id="supplementDialogTitle">Supplement planen</h2><button type="button" class="icon-btn close-dialog" aria-label="Schließen"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 6l12 12M18 6 6 18"/></svg></button></div>
+      <div class="dialog-body">
+        <div class="form-grid">
+          <div class="field full"><label for="suppName">Name</label><input id="suppName" placeholder="z. B. Vitamin D3" required maxlength="80" /></div>
+          <div class="field"><label for="suppDose">Dosis</label><input id="suppDose" type="number" min="0.1" step="0.1" value="1" required /></div>
+          <div class="field"><label for="suppUnit">Einheit</label><select id="suppUnit"><option>Kapsel</option><option>Tablette</option><option>Tropfen</option><option>Portion</option><option>ml</option><option>g</option></select></div>
+          <div class="field"><label for="suppTime">Uhrzeit</label><input id="suppTime" type="time" value="08:00" required /></div>
+          <div class="field"><label for="suppStock">Aktueller Vorrat</label><input id="suppStock" type="number" min="0" step="1" value="30" required /></div>
+          <div class="field full"><label>Einnahmetage</label><div class="weekday-picker" id="weekdayPicker"></div></div>
+          <div class="field"><label for="suppThreshold">Nachkaufen bei</label><input id="suppThreshold" type="number" min="1" step="1" value="10" required /></div>
+          <div class="field"><label for="suppRefill">Packungsgröße</label><input id="suppRefill" type="number" min="1" step="1" value="60" required /></div>
+        </div>
+      </div>
+      <div class="dialog-actions"><button type="button" class="secondary-btn close-dialog">Abbrechen</button><button type="submit" class="primary-btn">Plan speichern</button></div>
+    </form>
+  </dialog>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script>
+    const ICONS = {
+      activity: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M3 12h4l2.2-6 4 12 2.1-6H21"/></svg>',
+      calendar: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M8 3v4M16 3v4M3 10h18"/></svg>',
+      stethoscope: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M5 3v5a5 5 0 0 0 10 0V3M3 3h4M13 3h4"/><path d="M10 13v2a5 5 0 0 0 10 0v-1"/><circle cx="20" cy="11" r="2"/></svg>',
+      pill: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M8.5 3.5a4.95 4.95 0 0 1 7 7l-5 5a4.95 4.95 0 0 1-7-7z"/><path d="m6 13 5 5"/></svg>',
+      check: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m5 12 4 4L19 6"/></svg>',
+      box: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="m4 7 8-4 8 4-8 4zM4 7v10l8 4 8-4V7M12 11v10"/></svg>',
+      clock: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>'
+    };
+
+    const STORAGE_KEY = 'vitachronik-v1';
+    const monthFormat = new Intl.DateTimeFormat('de-DE', { month: 'long', year: 'numeric' });
+    const longDateFormat = new Intl.DateTimeFormat('de-DE', { weekday: 'long', day: 'numeric', month: 'long' });
+    const shortDateFormat = new Intl.DateTimeFormat('de-DE', { day: '2-digit', month: '2-digit' });
+    const today = startOfDay(new Date());
+
+    function startOfDay(date) { return new Date(date.getFullYear(), date.getMonth(), date.getDate()); }
+    function addDays(date, amount) { const next = new Date(date); next.setDate(next.getDate() + amount); return next; }
+    function dateKey(date) { return [date.getFullYear(), String(date.getMonth()+1).padStart(2,'0'), String(date.getDate()).padStart(2,'0')].join('-'); }
+    function fromKey(key) { const [y,m,d] = key.split('-').map(Number); return new Date(y,m-1,d); }
+    function uid() { return Date.now().toString(36) + Math.random().toString(36).slice(2,7); }
+    function escapeHtml(value='') { return String(value).replace(/[&<>'"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c])); }
+    function relativeKey(offset) { return dateKey(addDays(today, offset)); }
+
+    const defaultState = {
+      activeView: 'health',
+      healthMonth: dateKey(new Date(today.getFullYear(), today.getMonth(), 1)),
+      supplementMonth: dateKey(new Date(today.getFullYear(), today.getMonth(), 1)),
+      selectedDate: dateKey(today),
+      entries: [
+        { id:'demo-1', type:'symptom', date:relativeKey(-7), time:'18:20', title:'Kopfschmerzen', severity:6, notes:'Nach einem langen Bildschirmtag.' },
+        { id:'demo-2', type:'illness', date:relativeKey(-4), time:'08:15', title:'Erkältung', severity:4, notes:'Halsschmerzen und leichte Müdigkeit.' },
+        { id:'demo-3', type:'doctor', date:relativeKey(-12), time:'10:30', title:'Kontrolluntersuchung', doctor:'Hausarztpraxis Dr. Weber', notes:'Blutwerte besprochen.' },
+        { id:'demo-4', type:'appointment', date:relativeKey(5), time:'14:00', title:'Hautkrebsvorsorge', doctor:'Praxis Dr. König', notes:'Versichertenkarte mitnehmen.' },
+        { id:'demo-5', type:'symptom', date:relativeKey(0), time:'07:30', title:'Müdigkeit', severity:3, notes:'Trotz ausreichend Schlaf.' }
+      ],
+      supplements: [
+        { id:'supp-1', name:'Vitamin D3', dose:1, unit:'Tropfen', time:'08:00', weekdays:[0,1,2,3,4,5,6], stock:18, threshold:12, refill:50 },
+        { id:'supp-2', name:'Magnesium', dose:1, unit:'Kapsel', time:'21:00', weekdays:[0,1,2,3,4,5,6], stock:7, threshold:10, refill:60 },
+        { id:'supp-3', name:'Omega-3', dose:2, unit:'Kapsel', time:'12:30', weekdays:[0,1,2,3,4,5,6], stock:42, threshold:14, refill:90 }
+      ],
+      intakeLog: {}
+    };
+
+    function loadState() {
+      try {
+        const saved = JSON.parse(localStorage.getItem(STORAGE_KEY));
+        return saved ? { ...defaultState, ...saved } : structuredClone(defaultState);
+      } catch { return structuredClone(defaultState); }
+    }
+    let state = loadState();
+    function persist() { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); }
+
+    function currentMonth(which) { return fromKey(which === 'health' ? state.healthMonth : state.supplementMonth); }
+    function moveMonth(which, delta) {
+      const current = currentMonth(which);
+      const next = new Date(current.getFullYear(), current.getMonth() + delta, 1);
+      state[which === 'health' ? 'healthMonth' : 'supplementMonth'] = dateKey(next);
+      persist(); render();
+    }
+
+    function calendarDays(monthDate) {
+      const first = new Date(monthDate.getFullYear(), monthDate.getMonth(), 1);
+      const mondayOffset = (first.getDay() + 6) % 7;
+      const start = addDays(first, -mondayOffset);
+      return Array.from({ length: 42 }, (_, i) => addDays(start, i));
+    }
+
+    function render() {
+      renderView();
+      renderHealthCalendar();
+      renderDayDetail();
+      renderHealthSummary();
+      renderSupplementCalendar();
+      renderDoses();
+      renderStock();
+      renderSupplementSummary();
+    }
+
+    function renderView() {
+      const health = state.activeView === 'health';
+      document.querySelectorAll('.view').forEach(el => el.classList.remove('active'));
+      document.getElementById(health ? 'healthView' : 'supplementsView').classList.add('active');
+      document.querySelectorAll('[data-view]').forEach(btn => {
+        const active = btn.dataset.view === state.activeView;
+        btn.classList.toggle('active', active);
+        if (btn.closest('.sidebar')) active ? btn.setAttribute('aria-current','page') : btn.removeAttribute('aria-current');
+      });
+      document.getElementById('viewEyebrow').textContent = health ? 'Gesundheitskalender' : 'Supplement-Planer';
+      document.getElementById('viewTitle').textContent = health ? 'Dein Verlauf auf einen Blick' : 'Routine und Vorrat im Griff';
+      document.querySelector('#mainAddButton span').textContent = health ? 'Eintrag hinzufügen' : 'Supplement planen';
+    }
+
+    function renderHealthCalendar() {
+      const month = currentMonth('health');
+      document.getElementById('healthMonthLabel').textContent = monthFormat.format(month);
+      const container = document.getElementById('healthCalendar');
+      container.innerHTML = calendarDays(month).map(day => {
+        const key = dateKey(day);
+        const entries = state.entries.filter(item => item.date === key).sort((a,b) => a.time.localeCompare(b.time));
+        const chips = entries.slice(0,2).map(item => `<div class="event-chip ${item.type}"><span>${escapeHtml(item.title)}</span></div>`).join('');
+        const more = entries.length > 2 ? `<div class="more-chip">+ ${entries.length-2} weitere</div>` : '';
+        return `<button class="day-cell ${day.getMonth() !== month.getMonth() ? 'outside' : ''} ${key === dateKey(today) ? 'today' : ''} ${key === state.selectedDate ? 'selected' : ''}" data-health-date="${key}" aria-label="${escapeHtml(longDateFormat.format(day))}, ${entries.length} Einträge"><span class="day-number">${day.getDate()}</span>${chips}${more}</button>`;
+      }).join('');
+    }
+
+    const typeNames = { symptom:'Symptom', illness:'Krankheit', doctor:'Arztbesuch', appointment:'Termin' };
+    function renderDayDetail() {
+      const date = fromKey(state.selectedDate);
+      document.getElementById('selectedDateLabel').textContent = longDateFormat.format(date);
+      const entries = state.entries.filter(item => item.date === state.selectedDate).sort((a,b) => a.time.localeCompare(b.time));
+      const container = document.getElementById('dayEntries');
+      if (!entries.length) {
+        container.innerHTML = `<div class="empty-state"><div class="empty-icon">${ICONS.calendar}</div><strong>Noch nichts eingetragen</strong><span>Halte Symptome, Krankheiten oder Arzttermine für diesen Tag fest.</span><br><button class="text-btn" id="emptyAdd" style="margin-top:10px">+ Eintrag hinzufügen</button></div>`;
+        return;
+      }
+      container.innerHTML = entries.map(item => {
+        const severity = item.severity ? `<div class="severity" aria-label="Stärke ${item.severity} von 10">${Array.from({length:5},(_,i)=>`<i class="${i < Math.ceil(item.severity/2) ? 'on':''}"></i>`).join('')}</div>` : '';
+        const meta = item.doctor ? `<p>${escapeHtml(item.doctor)}</p>` : '';
+        return `<article class="entry-card"><div class="entry-top"><span class="type-badge ${item.type}">${typeNames[item.type]}</span><span class="entry-time">${escapeHtml(item.time || '')}</span></div><h4>${escapeHtml(item.title)}</h4>${meta}${item.notes ? `<p>${escapeHtml(item.notes)}</p>`:''}${severity}<button class="delete-btn" data-delete-entry="${item.id}" aria-label="Eintrag löschen"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M8 6V4h8v2M19 6l-1 14H6L5 6M10 10v6M14 10v6"/></svg></button></article>`;
+      }).join('');
+    }
+
+    function renderHealthSummary() {
+      const nowKey = dateKey(today);
+      const future = state.entries.filter(e => e.type === 'appointment' && e.date >= nowKey).sort((a,b) => (a.date+a.time).localeCompare(b.date+b.time));
+      const month = currentMonth('health');
+      const inMonth = e => { const d=fromKey(e.date); return d.getMonth()===month.getMonth() && d.getFullYear()===month.getFullYear(); };
+      const symptoms = state.entries.filter(e => e.type === 'symptom' && inMonth(e));
+      const avg = symptoms.length ? (symptoms.reduce((s,e)=>s+Number(e.severity||0),0)/symptoms.length).toFixed(1) : '–';
+      document.getElementById('healthSummary').innerHTML = `
+        <div class="summary-card"><div class="summary-icon">${ICONS.activity}</div><div><strong>${symptoms.length}</strong><span>Symptome im Monat</span></div></div>
+        <div class="summary-card"><div class="summary-icon">${ICONS.calendar}</div><div><strong>${future.length}</strong><span>kommende Arzttermine</span></div></div>
+        <div class="summary-card"><div class="summary-icon">${ICONS.stethoscope}</div><div><strong>${avg}${avg==='–'?'':' / 10'}</strong><span>Ø Symptomstärke</span></div></div>`;
+    }
+
+    function dayJsIndex(date) { return date.getDay(); }
+    function plannedFor(supp, date) { return supp.weekdays.includes(dayJsIndex(date)); }
+    function logKey(date, suppId) { return `${dateKey(date)}:${suppId}`; }
+
+    function renderSupplementCalendar() {
+      const month = currentMonth('supplements');
+      document.getElementById('supplementMonthLabel').textContent = monthFormat.format(month);
+      document.getElementById('supplementCalendar').innerHTML = calendarDays(month).map(day => {
+        const planned = state.supplements.filter(s => plannedFor(s, day));
+        const markers = planned.slice(0,5).map(s => `<span class="dose-dot ${state.intakeLog[logKey(day,s.id)] ? 'taken':''}" title="${escapeHtml(s.name)}">${state.intakeLog[logKey(day,s.id)] ? '✓':'·'}</span>`).join('');
+        return `<button class="day-cell supp-day ${day.getMonth()!==month.getMonth()?'outside':''} ${dateKey(day)===dateKey(today)?'today':''}" data-supp-date="${dateKey(day)}" aria-label="${escapeHtml(longDateFormat.format(day))}, ${planned.length} Einnahmen"><span class="day-number">${day.getDate()}</span><div class="dose-markers">${markers}</div><div class="dose-count">${planned.length ? planned.length+' geplant' : ''}</div></button>`;
+      }).join('');
+    }
+
+    function renderDoses() {
+      const planned = state.supplements.filter(s => plannedFor(s,today)).sort((a,b)=>a.time.localeCompare(b.time));
+      const taken = planned.filter(s => state.intakeLog[logKey(today,s.id)]).length;
+      document.getElementById('todayDoseCount').textContent = `${taken} von ${planned.length} erledigt`;
+      const container = document.getElementById('todayDoses');
+      if (!planned.length) { container.innerHTML = '<div class="all-good">Heute ist keine Einnahme geplant.</div>'; return; }
+      container.innerHTML = planned.map(s => {
+        const isTaken = !!state.intakeLog[logKey(today,s.id)];
+        return `<div class="dose-row"><button class="dose-check ${isTaken?'taken':''}" data-toggle-dose="${s.id}" aria-label="${escapeHtml(s.name)} als ${isTaken?'offen':'eingenommen'} markieren">${ICONS.check}</button><div class="dose-copy"><strong>${escapeHtml(s.name)}</strong><span>${s.dose} ${escapeHtml(s.unit)}</span></div><span class="dose-time">${escapeHtml(s.time)}</span></div>`;
+      }).join('');
+    }
+
+    function renderStock() {
+      const sorted = [...state.supplements].sort((a,b) => (a.stock-a.threshold)-(b.stock-b.threshold));
+      const low = sorted.filter(s => s.stock <= s.threshold);
+      const container = document.getElementById('stockList');
+      if (!sorted.length) { container.innerHTML = '<div class="all-good">Noch keine Supplemente angelegt.</div>'; return; }
+      const visible = low.length ? low : sorted.slice(0,2);
+      container.innerHTML = visible.map(s => {
+        const percent = Math.min(100, Math.round(s.stock / Math.max(s.refill,1) * 100));
+        const days = s.dose ? Math.floor(s.stock / s.dose) : s.stock;
+        return `<div class="stock-row"><div class="stock-top"><strong>${escapeHtml(s.name)}</strong><span class="${s.stock<=s.threshold?'critical':''}">${s.stock} übrig · ca. ${days} Tage</span></div><div class="progress-track"><div class="progress-fill ${s.stock<=s.threshold?'low':''}" style="width:${percent}%"></div></div>${s.stock<=s.threshold?`<button class="restock-btn" data-restock="${s.id}">Als nachgekauft markieren (+${s.refill})</button>`:''}</div>`;
+      }).join('');
+    }
+
+    function renderSupplementSummary() {
+      const planned = state.supplements.filter(s => plannedFor(s,today));
+      const taken = planned.filter(s => state.intakeLog[logKey(today,s.id)]).length;
+      const low = state.supplements.filter(s => s.stock <= s.threshold).length;
+      const adherence = planned.length ? Math.round(taken/planned.length*100) : 100;
+      document.getElementById('supplementSummary').innerHTML = `
+        <div class="summary-card"><div class="summary-icon">${ICONS.pill}</div><div><strong>${taken} / ${planned.length}</strong><span>heute eingenommen</span></div></div>
+        <div class="summary-card"><div class="summary-icon">${ICONS.box}</div><div><strong>${low}</strong><span>solltest du nachkaufen</span></div></div>
+        <div class="summary-card"><div class="summary-icon">${ICONS.clock}</div><div><strong>${adherence} %</strong><span>heute erledigt</span></div></div>`;
+    }
+
+    function setActiveView(view) { state.activeView=view; persist(); renderView(); window.scrollTo({top:0,behavior:'smooth'}); }
+    function openAddDialog() {
+      if (state.activeView === 'health') {
+        document.getElementById('entryDate').value = state.selectedDate;
+        updateHealthFields(); document.getElementById('healthDialog').showModal();
+      } else document.getElementById('supplementDialog').showModal();
+    }
+    function closeDialogs() { document.querySelectorAll('dialog[open]').forEach(d => d.close()); }
+    function showToast(message) { const t=document.getElementById('toast'); t.textContent=message; t.classList.add('show'); clearTimeout(showToast.timer); showToast.timer=setTimeout(()=>t.classList.remove('show'),2200); }
+
+    function updateHealthFields() {
+      const type = document.getElementById('entryType').value;
+      document.querySelector('.doctor-field').hidden = !['doctor','appointment'].includes(type);
+      document.querySelector('.severity-field').hidden = ['doctor','appointment'].includes(type);
+      const placeholders = { symptom:'z. B. Kopfschmerzen', illness:'z. B. Erkältung', doctor:'z. B. Kontrolluntersuchung', appointment:'z. B. Hautkrebsvorsorge' };
+      document.getElementById('entryTitle').placeholder = placeholders[type];
+    }
+
+    document.addEventListener('click', event => {
+      const viewButton = event.target.closest('[data-view]');
+      if (viewButton) setActiveView(viewButton.dataset.view);
+      const nav = event.target.closest('[data-move]');
+      if (nav) moveMonth(nav.dataset.calendar, Number(nav.dataset.move));
+      const healthDay = event.target.closest('[data-health-date]');
+      if (healthDay) { state.selectedDate=healthDay.dataset.healthDate; persist(); renderHealthCalendar(); renderDayDetail(); }
+      if (event.target.closest('#mainAddButton, #mobileAdd, #emptyAdd')) openAddDialog();
+      if (event.target.closest('#addSupplementMini')) { state.activeView='supplements'; document.getElementById('supplementDialog').showModal(); }
+      if (event.target.closest('.close-dialog')) closeDialogs();
+      const del = event.target.closest('[data-delete-entry]');
+      if (del) { state.entries=state.entries.filter(e=>e.id!==del.dataset.deleteEntry); persist(); render(); showToast('Eintrag gelöscht'); }
+      const toggle = event.target.closest('[data-toggle-dose]');
+      if (toggle) {
+        const key=logKey(today,toggle.dataset.toggleDose); const supp=state.supplements.find(s=>s.id===toggle.dataset.toggleDose);
+        if (state.intakeLog[key]) { delete state.intakeLog[key]; if(supp) supp.stock += Number(supp.dose)||1; }
+        else { state.intakeLog[key]=true; if(supp) supp.stock=Math.max(0,supp.stock-(Number(supp.dose)||1)); }
+        persist(); render(); showToast(state.intakeLog[key] ? 'Einnahme abgehakt' : 'Einnahme wieder geöffnet');
+      }
+      const restock = event.target.closest('[data-restock]');
+      if (restock) { const supp=state.supplements.find(s=>s.id===restock.dataset.restock); if(supp){supp.stock+=Number(supp.refill)||0; persist(); render(); showToast(`${supp.name}: Vorrat aktualisiert`);} }
+    });
+
+    document.getElementById('entryType').addEventListener('change', updateHealthFields);
+    document.getElementById('entrySeverity').addEventListener('input', e => document.getElementById('severityValue').textContent=e.target.value);
+    document.querySelectorAll('dialog').forEach(dialog => dialog.addEventListener('click', e => { if(e.target===dialog) dialog.close(); }));
+
+    document.getElementById('healthForm').addEventListener('submit', event => {
+      event.preventDefault();
+      const type=document.getElementById('entryType').value;
+      const entry={ id:uid(), type, date:document.getElementById('entryDate').value, time:document.getElementById('entryTime').value, title:document.getElementById('entryTitle').value.trim(), notes:document.getElementById('entryNotes').value.trim() };
+      if(['doctor','appointment'].includes(type)) entry.doctor=document.getElementById('entryDoctor').value.trim(); else entry.severity=Number(document.getElementById('entrySeverity').value);
+      state.entries.push(entry); state.selectedDate=entry.date; state.healthMonth=dateKey(new Date(fromKey(entry.date).getFullYear(),fromKey(entry.date).getMonth(),1)); persist();
+      event.target.reset(); document.getElementById('entryTime').value='09:00'; document.getElementById('entrySeverity').value='5'; document.getElementById('severityValue').textContent='5'; closeDialogs(); render(); showToast('Gesundheitseintrag gespeichert');
+    });
+
+    const weekdayNames=['So','Mo','Di','Mi','Do','Fr','Sa'];
+    document.getElementById('weekdayPicker').innerHTML=[1,2,3,4,5,6,0].map(day=>`<label><input type="checkbox" name="weekday" value="${day}" checked><span>${weekdayNames[day]}</span></label>`).join('');
+
+    document.getElementById('supplementForm').addEventListener('submit', event => {
+      event.preventDefault();
+      const weekdays=[...event.target.querySelectorAll('[name="weekday"]:checked')].map(el=>Number(el.value));
+      if(!weekdays.length){showToast('Bitte mindestens einen Einnahmetag wählen');return;}
+      state.supplements.push({ id:uid(), name:document.getElementById('suppName').value.trim(), dose:Number(document.getElementById('suppDose').value), unit:document.getElementById('suppUnit').value, time:document.getElementById('suppTime').value, weekdays, stock:Number(document.getElementById('suppStock').value), threshold:Number(document.getElementById('suppThreshold').value), refill:Number(document.getElementById('suppRefill').value) });
+      persist(); event.target.reset(); document.querySelectorAll('[name="weekday"]').forEach(el=>el.checked=true); document.getElementById('suppDose').value=1; document.getElementById('suppTime').value='08:00'; document.getElementById('suppStock').value=30; document.getElementById('suppThreshold').value=10; document.getElementById('suppRefill').value=60; closeDialogs(); render(); showToast('Supplement-Plan gespeichert');
+    });
+
+    document.addEventListener('keydown', e => { if(e.key==='Escape') closeDialogs(); });
+    document.getElementById('todayLabel').textContent = longDateFormat.format(today);
+    render();
+  </script>
+</body>
+</html>
